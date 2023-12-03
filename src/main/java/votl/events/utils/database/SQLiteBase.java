@@ -23,7 +23,8 @@ public class SQLiteBase {
 		util.logger.debug(sql);
 		try (PreparedStatement st = util.prepareStatement(sql)) {
 			ResultSet rs = st.executeQuery();
-			result = rs.getObject(selectKey, className);
+			if (rs.next())
+				result = rs.getObject(selectKey, className);
 		} catch (SQLException ex) {
 			util.logger.warn("DB SQLite: Error at SELECT\nrequest: {}", sql, ex);
 		}

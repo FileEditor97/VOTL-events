@@ -6,8 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum EventActions {
-	ADD_TOKENS(0, "Add tokens", "(\\d+):(.+)"),
-	REMOVE_TOKENS(1, "Remove tokens", "(\\d+):(.+)");
+	ADD_TOKENS(0, "Add tokens", "(\\+\\d+):(.+)"),
+	REMOVE_TOKENS(1, "Remove tokens", "(-\\d+):(.+)");
 	
 	private final Integer type;
 	private final String name;

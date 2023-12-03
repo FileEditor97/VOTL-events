@@ -113,6 +113,63 @@
 					"support_value": "If you need help with the bot, contact the owner `{owner_name}`."
 				}
 			}
+		},
+		"tokens": {
+			"view": {
+				"help": "View the current amount of tokens",
+				"usage": "view [@User] [View history?]",
+				"user": {
+					"name": "user",
+					"help": "Select which user to view"
+				},
+				"history": {
+					"name": "history",
+					"help": "View token transaction history?"
+				},
+				"embed": {
+					"title": "%s profile",
+					"tokens": "Tokens amount",
+					"history": "Transaction history",
+					"empty": "No transaction history"
+				}
+			},
+			"add": {
+				"help": "Add tokens to the user",
+				"usage": "add <@User> <amount> [reason]",
+				"user": {
+					"name": "user",
+					"help": "Select the user"
+				},
+				"amount": {
+					"name": "amount",
+					"help": "Enter amount which to add to the user"
+				},
+				"reason": {
+					"name": "reason",
+					"help": "Enter action reason"
+				},
+				"no_reason": "-",
+				"done": "Added {amount} tokens to the user {user}."
+			},
+			"remove": {
+				"help": "Remove tokens to the user",
+				"usage": "remove <@User> <amount> [reason]",
+				"user": {
+					"name": "user",
+					"help": "Select the user"
+				},
+				"amount": {
+					"name": "amount",
+					"help": "Enter amount which to remove from the user"
+				},
+				"reason": {
+					"name": "reason",
+					"help": "Enter action reason"
+				},
+				"no_reason": "-",
+				"not_enought": "User lacks required token amount. Enter exact amount to remove all tokens.",
+				"done": "Removed {amount} tokens to the user {user}."
+			}
 		}
 	}
 }

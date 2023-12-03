@@ -26,6 +26,9 @@ import votl.events.base.waiter.EventWaiter;
 import votl.events.commands.other.HelpCmd;
 import votl.events.commands.other.PingCmd;
 import votl.events.commands.owner.ShutdownCmd;
+import votl.events.commands.tokens.AddCmd;
+import votl.events.commands.tokens.RemoveCmd;
+import votl.events.commands.tokens.ViewCmd;
 import votl.events.listener.AutoCompleteListener;
 import votl.events.listener.CommandListener;
 import votl.events.listener.GuildListener;
@@ -69,8 +72,8 @@ public class App {
 		try {
 			fileManager.addFile("config", "/config.json", Constants.DATA_PATH + "config.json")
 				.addFile("database", "/server.db", Constants.DATA_PATH + "server.db")
-				.addLang("en-GB");
-				//.addLang("ru");
+				.addLang("en-GB")
+				.addLang("ru");
 		} catch (Exception ex) {
 			logger.error("Error while interacting with File Manager", ex);
 			System.exit(0);
@@ -101,7 +104,11 @@ public class App {
 				new ShutdownCmd(this),
 				// Other
 				new PingCmd(this),
-				new HelpCmd(this)
+				new HelpCmd(this),
+				// Tokens
+				new ViewCmd(this),
+				new AddCmd(this),
+				new RemoveCmd(this)
 			)
 			.build();
 

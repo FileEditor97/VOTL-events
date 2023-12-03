@@ -41,7 +41,7 @@ public class TokenUpdatesManager extends SQLiteBase {
 	public List<EventLog> getUserLogs(Long guildId, Long targetId, int offset, int count) {
 		final String sql = "SELECT * FROM %s WHERE (guildId=%d AND targetId=%d) ORDER BY id DESC LIMIT %d, %d;".formatted(table, guildId, targetId, offset, count);
 		List<Map<String, Object>> data = select(sql, List.of("id", "guildId", "targetId", "modId", "datetime", "type", "data"));
-		if (data == null || data.isEmpty()) return null;
+		if (data == null || data.isEmpty()) return List.of();
 		return data.stream().map(map -> new EventLog(map)).toList();
 	}
 
@@ -49,7 +49,7 @@ public class TokenUpdatesManager extends SQLiteBase {
 	public List<EventLog> getLogs(Long guildId, int offset, int count) {
 		final String sql = "SELECT * FROM %s WHERE (guildId=%d) ORDER BY id DESC LIMIT %d, %d;".formatted(table, guildId, offset, count);
 		List<Map<String, Object>> data = select(sql, List.of("id", "guildId", "targetId", "modId", "datetime", "type", "data"));
-		if (data == null || data.isEmpty()) return null;
+		if (data == null || data.isEmpty()) return List.of();
 		return data.stream().map(map -> new EventLog(map)).toList();
 	}
 

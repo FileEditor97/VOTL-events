@@ -11,14 +11,15 @@ public class TokenManager extends SQLiteBase {
 		super(util);
 	}
 
-	public void addTokens(Long guildId, Long userId, Integer tokenAmount, Long epochSeconds) {
-		execute("INSERT INTO %s(guildId, userId, tokens, lastUpdated) VALUES(%s, %s, %d, %d)"+
-			"ON CONFLICT(guildId, userId) DO UPDATE SET tokens=tokens+%d, lastUpdated=%d;"
+	public void addTokens(long guildId, long userId, int tokenAmount, long epochSeconds) {
+		execute(("INSERT INTO %s(guildId, userId, tokens, lastUpdated) VALUES(%d, %d, %d, %d)"+
+			"ON CONFLICT(guildId, userId) DO UPDATE SET tokens=tokens+%d, lastUpdated=%d;")
 			.formatted(table, guildId, userId, tokenAmount, epochSeconds, tokenAmount, epochSeconds));
 	}
 
 	public Integer getTokens(Long guildId, Long userId) {
-		return selectOne("SELECT tokens FROM %s WHERE (guildId=%d AND userId=%d);".formatted(table, guildId, userId), "tokens", Integer.class);
+		Integer data = selectOne("SELECT tokens FROM %s WHERE (guildId=%d AND userId=%d);".formatted(table, guildId, userId), "tokens", Integer.class);
+		return data==null ? 0 : data;
 	}
 
 	public void removeGuildUser(Long guildId, Long userId) {

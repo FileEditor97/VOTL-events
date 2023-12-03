@@ -34,7 +34,9 @@ public enum Emotes {
 	NONE		("none",        1095073050657034321L, false),
 	CHECK_C		("color_check", 1043105156700577842L, false),
 	CROSS_C		("color_cross", 1043105216133865522L, false),
-	WARNING_C	("color_warning", 1043105732347834428L, false);
+	WARNING_C	("color_warning", 1043105732347834428L, false),
+	// ROTR Discord
+	RISE_TOKEN	("risetokens", 1180973841418297445L, false);
 
 	private static final Pattern emote_pattern = Pattern.compile("\\{EMOTE_(?<name>[A-Z0-9_]+)}");
 	private static final Emotes[] ALL = values();
