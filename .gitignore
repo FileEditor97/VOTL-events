@@ -32,9 +32,6 @@ build
 # VSCode
 .vscode/
 
-# Github
-.github/
-
 # Project private
 logs/
 data/
