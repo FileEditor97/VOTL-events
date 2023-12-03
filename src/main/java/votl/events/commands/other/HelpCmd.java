@@ -132,7 +132,7 @@ public class HelpCmd extends CommandBase {
 					fieldTitle = lu.getLocalized(userLocale, "bot.help.command_menu.categories."+category.getName());
 					fieldValue = new StringBuilder();
 				}
-				fieldValue.append("`").append(prefix==null?" ":prefix).append(command.getName())
+				fieldValue.append("`").append(prefix==null?" ":prefix).append(command.getName()).append("`")
 					.append(" - ").append(command.getDescriptionLocalization().get(userLocale))
 					.append("\n");
 			}

@@ -23,6 +23,10 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import votl.events.base.command.CommandClient;
 import votl.events.base.command.CommandClientBuilder;
 import votl.events.base.waiter.EventWaiter;
+import votl.events.commands.other.HelpCmd;
+import votl.events.commands.other.PingCmd;
+import votl.events.commands.owner.ShutdownCmd;
+import votl.events.listener.AutoCompleteListener;
 import votl.events.listener.CommandListener;
 import votl.events.listener.GuildListener;
 import votl.events.objects.constants.Constants;
@@ -50,6 +54,7 @@ public class App {
 
 	private final FileManager fileManager = new FileManager();
 
+	private final AutoCompleteListener acListener;
 	private final GuildListener guildListener;
 	private final CommandListener commandListener;
 
@@ -91,10 +96,19 @@ public class App {
 			.setActivity(Activity.customStatus(">>>  /help  <<<"))
 			.setListener(commandListener)
 			.setDevGuildIds(fileManager.getStringList("config", "dev-servers").toArray(new String[0]))
+			.addSlashCommands(
+				// Owner
+				new ShutdownCmd(this),
+				// Other
+				new PingCmd(this),
+				new HelpCmd(this)
+			)
 			.build();
 
 		// Build
 		MemberCachePolicy policy = MemberCachePolicy.OWNER;
+
+		acListener		= new AutoCompleteListener(commandClient);
 
 		JDABuilder jdaBuilder = JDABuilder.createLight(fileManager.getString("config", "bot-token"))
 			.setEnabledIntents(
@@ -109,7 +123,7 @@ public class App {
 				CacheFlag.ROLE_TAGS,			// role search
 				CacheFlag.VOICE_STATE			// get members voice status
 			)
-			.addEventListeners(commandClient, WAITER, guildListener);
+			.addEventListeners(commandClient, WAITER, acListener, guildListener);
 		
 		JDA jda = null;
 

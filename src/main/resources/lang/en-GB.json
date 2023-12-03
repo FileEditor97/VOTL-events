@@ -52,6 +52,25 @@
 				"loading": "{EMOTE_TYPING} Ping: ...",
 				"info": "{EMOTE_PING} Ping: {ping} ms",
 				"info_full": "{EMOTE_CLOUD} Websocket: {websocket} ms\n{EMOTE_DOWNLOAD} RestAction: {rest} ms"
+			},
+			"status": {
+				"help": "Gets bot's status, shard info",
+				"usage": "status",
+				"embed": {
+					"stats_title": "Stats",
+					"stats" : {
+						"guilds": "{value} Servers",
+						"shard": "Shard {this}/{all}"
+					},
+					"shard_title": "This shard",
+					"shard": {
+						"users": "Cached users {value}",
+						"guilds": "Cached server {value}",
+						"text_channels": "{value} Text Channels",
+						"voice_channels": "{value} Voice Channels"
+					},
+					"last_restart": "Last restart"
+				}
 			}
 		},
 		"help": {

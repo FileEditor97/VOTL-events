@@ -31,3 +31,7 @@ build
 
 # VSCode
 .vscode/
+
+# Project private
+logs/
+data/
