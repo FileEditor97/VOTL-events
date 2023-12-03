@@ -35,3 +35,6 @@ build
 # Project private
 logs/
 data/
+
+# Include wrapper files
+!gradle/wrapper/*
