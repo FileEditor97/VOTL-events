@@ -1,0 +1,99 @@
+{
+	"embed": {
+		"footer": "Requested by %s"
+	},
+	"errors": {
+		"title": "Error",
+		"additional": "Additional info:",
+		"missing_perms": {
+			"no_send_perm": "I have no permission to send messages in your channel. Pls fix!",
+			"self": "I lack the permission `{permission}` for this.",
+			"self_channel": "I lack the permission `{permission}` in the channel {channel} to do this.",
+			"other": "You lack the permission `{permission}` for this command.",
+			"other_channel": "You lack the permission `{permission}` in the channel {channel} to do this command."
+		},
+		"command": {
+			"not_owner": "Only an owner may run this command.",
+			"nsfw": "This command may only be used in NSFW text channels!",
+			"guild_only": "This command cannot be used in private messages! Use this command in server, where I am."
+		},
+		"interaction": {
+			"no_access": "You cannot perform this action because you do not have the required access level."
+		},
+		"cooldown": {
+			"cooldown_command": "That command is on cooldown for {time} more seconds",
+			"cooldown_button": "This button is on cooldown for {time} more seconds",
+			"channel": "in this channel",
+			"guild": "in this server",
+			"shard": "on this shard",
+			"global": "globally"
+		}
+	},
+	"misc": {
+		"and": "and",
+		"language": "English (en)",
+		"unknown": "Unknown",
+		"command": {
+			"help": "no help available",
+			"usage": "no usage description"
+		}
+	},
+	"bot": {
+		"owner": {
+			"shutdown": {
+				"help": "Safely shuts down the bot",
+				"usage": "shutdown"
+			}
+		},
+		"other": {
+			"ping": {
+				"help": "Check the bot's latency",
+				"usage": "ping",
+				"loading": "{EMOTE_TYPING} Ping: ...",
+				"info": "{EMOTE_PING} Ping: {ping} ms",
+				"info_full": "{EMOTE_CLOUD} Websocket: {websocket} ms\n{EMOTE_DOWNLOAD} RestAction: {rest} ms"
+			}
+		},
+		"help": {
+			"help": "List all available commands the bot has or description of specific command.",
+			"usage": "help [command | category] [show?]",
+			"show": {
+				"name": "show",
+				"help": "Information will be visible for others (default-true)"
+			},
+			"category": {
+				"name": "category",
+				"help": "Shows commands in selected category"
+			},
+			"command": {
+				"name": "command",
+				"help": "Shows information about selected command"
+			},
+			"command_info": {
+				"docs": "Docs",
+				"no_command": "The provided command doesn't exist!\nMake sure you typed it correctly.",
+				"title": "Command help: {command}",
+				"value": "Category: **{category}**\nOwner command: {owner}\nCan be used in DMs: {guild}\nModule: **{module}**",
+				"help_title": "Description",
+				"usage_title": "Usage options",
+				"usage_value": "```/{usage}```",
+				"usage_child": "```/{base} {usage}```└ {help}",
+				"usage_subvalue": "[] ─ Optional\n<> ─ Required\nA | B ─ Selection"
+			},
+			"command_menu": {
+				"title": "Available commands:",
+				"categories": {
+					"owner": "Owner",
+					"tokens": "Tokens",
+					"other": "Other",
+					"title": "Categories"
+				},
+				"description": {
+					"command_value": "To get more info about a specific command run `/help command:[command]`.\nYou can also run `/help category:[category]` to show the commands of a specific category.",
+					"support_title": "*Additional help*",
+					"support_value": "If you need help with the bot, contact the owner `{owner_name}`."
+				}
+			}
+		}
+	}
+}
