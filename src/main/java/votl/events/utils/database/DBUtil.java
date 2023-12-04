@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import votl.events.App;
+import votl.events.utils.database.managers.BankManager;
 import votl.events.utils.database.managers.TokenManager;
 import votl.events.utils.database.managers.TokenUpdatesManager;
 import votl.events.utils.file.FileManager;
@@ -31,6 +32,7 @@ public class DBUtil {
 
 	public final TokenManager tokens;
 	public final TokenUpdatesManager tokenUpdates;
+	public final BankManager bank;
 
 	public DBUtil(FileManager fileManager) {
 		this.fileManager = fileManager;
@@ -38,6 +40,7 @@ public class DBUtil {
 
 		tokens = new TokenManager(connectionUtil);
 		tokenUpdates = new TokenUpdatesManager(connectionUtil);
+		bank = new BankManager(connectionUtil);
 
 		updateDB();
 	}

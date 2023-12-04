@@ -16,6 +16,7 @@ public class GuildListener extends ListenerAdapter {
 
 	@Override
 	public void onGuildJoin(@Nonnull GuildJoinEvent event) {
+		bot.getDBUtil().bank.createBank(event.getGuild().getIdLong());
 		bot.getLogger().info("Joined guild '%s'(%s)".formatted(event.getGuild(), event.getGuild().getId()));
 	}
 

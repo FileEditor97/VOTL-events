@@ -47,7 +47,7 @@ public class AddCmd extends CommandBase {
 		long guildId = event.getGuild().getIdLong();
 		long targetId = target.getIdLong();
 
-		long updateTime = Instant.now().getEpochSecond();
+		Instant updateTime = Instant.now();
 		bot.getDBUtil().tokens.addTokens(guildId, targetId, addTokens, updateTime);
 		bot.getDBUtil().tokenUpdates.logAction(guildId, targetId, event.getUser().getIdLong(), updateTime,
 			EventActions.ADD_TOKENS, addTokens, "+%d:%s".formatted(addTokens, reason));

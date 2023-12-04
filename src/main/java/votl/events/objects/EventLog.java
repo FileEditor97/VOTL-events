@@ -7,13 +7,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class EventLog {
 	
-	private final Integer id;
+	private final int id;
 	private final long guildId;
 	private final long targetId;
 	private final long creatorId;
 	private final Instant time;
 	private final EventActions eventType;
-	private String data;
+	private final int tokenAmount;
+	private final String reason;
 
 	public EventLog(@NotNull Map<String, Object> map) {
 		this.id = (Integer) map.get("id");
@@ -22,7 +23,8 @@ public class EventLog {
 		this.creatorId = ((Number) map.get("creatorId")).longValue();
 		this.time = Instant.ofEpochSecond(((Number) map.get("datetime")).longValue());
 		this.eventType = EventActions.byType((Integer) map.get("type"));
-		this.data = (String) map.get("data");
+		this.tokenAmount = (int) map.get("tokenAmount");
+		this.reason = (String) map.get("reason");
 	}
 
 	public Integer getId() {
@@ -49,8 +51,12 @@ public class EventLog {
 		return eventType;
 	}
 
-	public String getData() {
-		return data;
+	public int getTokenAmount() {
+		return tokenAmount;
+	}
+
+	public String getReason() {
+		return reason;
 	}
 
 }

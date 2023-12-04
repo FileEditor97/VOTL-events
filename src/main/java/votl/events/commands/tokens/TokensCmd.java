@@ -2,7 +2,6 @@ package votl.events.commands.tokens;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -20,7 +19,7 @@ import votl.events.objects.constants.CmdCategory;
 
 public class TokensCmd extends CommandBase {
 
-	final List<EventActions> allowed = List.of(EventActions.ADD_TOKENS, EventActions.REMOVE_TOKENS);
+	final List<EventActions> allowed = List.of(EventActions.ADD_TOKENS, EventActions.REMOVE_TOKENS, EventActions.TRANSFER);
 	
 	public TokensCmd(App bot) {
 		super(bot);
@@ -67,11 +66,9 @@ public class TokensCmd extends CommandBase {
 			buffer.append(lu.getLocalized(locale, path+".embed.empty"));
 		else
 			actions.forEach(action -> {
-				Matcher matcher = action.getEventType().getPattern().matcher(action.getData());
-				matcher.matches();
 				Instant time = action.getTime();
-				String tokens = matcher.group(1);
-				String reason = matcher.group(2);
+				String tokens = "%+d".formatted(action.getTokenAmount());
+				String reason = action.getReason();
 				buffer.append("`%5s` | %s | `%s`\n".formatted(tokens, TimeFormat.DATE_TIME_SHORT.format(time), reason));
 			});
 		

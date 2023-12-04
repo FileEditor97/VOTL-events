@@ -18,6 +18,19 @@ public abstract class CommandBase extends SlashCommand {
 		event.reply(msg).setEphemeral(true).queue();
 	}
 
+	public final void createReplyEmbed(SlashCommandEvent event, @Nonnull MessageEmbed... embeds) {
+		event.deferReply(true).addEmbeds(embeds).queue();
+	}
+
+	// Error
+	public final void createError(SlashCommandEvent event, @Nonnull String path) {
+		createReplyEmbed(event, bot.getEmbedUtil().getError(event, path));
+	}
+
+	public final void createError(SlashCommandEvent event, @Nonnull String path, String reason) {
+		createReplyEmbed(event, bot.getEmbedUtil().getError(event, path, reason));
+	}
+
 	
 	// editOriginal with InteractionHook
 	public final void editHook(SlashCommandEvent event, @Nonnull String msg) {

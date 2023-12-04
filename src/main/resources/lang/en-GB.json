@@ -104,6 +104,7 @@
 				"categories": {
 					"owner": "Owner",
 					"tokens": "Tokens",
+					"manage": "Manage",
 					"other": "Other",
 					"title": "Categories"
 				},
@@ -153,7 +154,7 @@
 			},
 			"remove": {
 				"help": "Remove tokens to the user",
-				"usage": "remove <@User> <amount> [reason]",
+				"usage": "remove <@User> <amount> [reason] [to bank?]",
 				"user": {
 					"name": "user",
 					"help": "Select the user"
@@ -166,8 +167,12 @@
 					"name": "reason",
 					"help": "Enter action reason"
 				},
+				"to_bank": {
+					"name": "to_bank",
+					"help": "Transfer this amount to bank?"
+				},
 				"no_reason": "-",
-				"not_enought": "User lacks required token amount. Enter exact amount to remove all tokens.",
+				"not_enough": "User lacks required token amount. Enter exact amount to remove all tokens.",
 				"done": "Removed {amount} tokens to the user {user}."
 			},
 			"leaderboard": {
@@ -182,6 +187,61 @@
 				"earned": "By amount earned",
 				"spend": "By amount spend",
 				"empty": "No data"
+			},
+			"transfer": {
+				"help": "Transfer tokens to other user",
+				"usage": "transfer <@User> <amount>",
+				"user": {
+					"name": "user",
+					"help": "Select the user to which to transfer tokens"
+				},
+				"amount": {
+					"name": "amount",
+					"help": "Enter tokens amount to transfer"
+				},
+				"no_user": "Incorrect user provided.",
+				"not_enough": "You don't have the required amount for transfer.",
+				"min": "Minimum amount for transfer must be used.",
+				"max": "Maximum amount for transfer reached. Either already reached month limit or entered amount is to large.",
+				"done": "Transfered {amount} {EMOTE_RISE_TOKEN} to {user}."
+			}
+		},
+		"manage": {
+			"bank": {
+				"help": "Manage token's bank settings",
+				"usage": "bank [@Logs] [transfer cut] [max transfer] [exchange rate] [min exchange] [max exchange]",
+				"logs": {
+					"name": "logs",
+					"help": "Set tokens action log's channel"
+				},
+				"transfer_cut": {
+					"name": "transfer_cut",
+					"help": "Set bank's cut from transfer actions"
+				},
+				"max_transfer": {
+					"name": "max_transfer",
+					"help": "Set maximum tokens user can transfer in month"
+				},
+				"exchange_rate": {
+					"name": "exchange_rate",
+					"help": "Set exchange rate tokens->Coins"
+				},
+				"min_exchange": {
+					"name": "min_exchange",
+					"help": "Set minimum amount to exchange"
+				},
+				"max_exchange": {
+					"name": "max_exchange",
+					"help": "Set maximum amount to exchange"
+				},
+				"changed_log": "Tokens actions log's channel set to %s.",
+				"changed_cut": "Transfer cut set to %d.",
+				"changed_transfer_max": "Transfer limit set to %d.",
+				"changed_rate": "Exchange rate set to %.2f.",
+				"changed_exchange_min": "Exchange minimum set to %d.",
+				"changed_exchange_max": "Exchange maximum set to %d.",
+				"no_options": "No options to be updated.",
+				"embed_title": "Updated bank's settings."
 			}
 		}
 	}

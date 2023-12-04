@@ -23,6 +23,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import votl.events.base.command.CommandClient;
 import votl.events.base.command.CommandClientBuilder;
 import votl.events.base.waiter.EventWaiter;
+import votl.events.commands.manage.BankCmd;
 import votl.events.commands.other.HelpCmd;
 import votl.events.commands.other.PingCmd;
 import votl.events.commands.owner.ShutdownCmd;
@@ -30,6 +31,7 @@ import votl.events.commands.tokens.AddCmd;
 import votl.events.commands.tokens.LeaderboardCmd;
 import votl.events.commands.tokens.RemoveCmd;
 import votl.events.commands.tokens.TokensCmd;
+import votl.events.commands.tokens.TransferCmd;
 import votl.events.listener.AutoCompleteListener;
 import votl.events.listener.CommandListener;
 import votl.events.listener.GuildListener;
@@ -110,7 +112,10 @@ public class App {
 				new TokensCmd(this),
 				new AddCmd(this),
 				new RemoveCmd(this),
-				new LeaderboardCmd(this)
+				new LeaderboardCmd(this),
+				new TransferCmd(this),
+				// Manage
+				new BankCmd(this)
 			)
 			.build();
 

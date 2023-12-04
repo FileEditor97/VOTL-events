@@ -25,7 +25,8 @@ public class RemoveCmd extends CommandBase {
 			new OptionData(OptionType.USER, "user", lu.getText(path+".user.help"), true),
 			new OptionData(OptionType.INTEGER, "amount", lu.getText(path+".amount.help"), true)
 				.setRequiredRange(1, 600),
-			new OptionData(OptionType.STRING, "reason", lu.getText(path+".reason.help"))
+			new OptionData(OptionType.STRING, "reason", lu.getText(path+".reason.help")),
+			new OptionData(OptionType.BOOLEAN, "to_bank", lu.getText(path+".to_bank.help"))
 		);
 		this.category = CmdCategory.TOKENS;
 		this.adminCommand = true;
@@ -50,12 +51,14 @@ public class RemoveCmd extends CommandBase {
 
 		Integer currentAmount = bot.getDBUtil().tokens.getTokens(guildId, targetId);
 		if (currentAmount - removeTokens < 0) {
-			editHookEmbed(event, bot.getEmbedUtil().getError(event, path+".not_enought", "%d / %d".formatted(removeTokens, currentAmount)));
+			editHookEmbed(event, bot.getEmbedUtil().getError(event, path+".not_enough", "%d / %d".formatted(removeTokens, currentAmount)));
 			return;
 		}
 
-		long updateTime = Instant.now().getEpochSecond();
+		Instant updateTime = Instant.now();
 		bot.getDBUtil().tokens.addTokens(guildId, targetId, -removeTokens, updateTime);
+		if (event.optBoolean("to_bank", false))
+			bot.getDBUtil().bank.changeAmount(guildId, removeTokens);
 		bot.getDBUtil().tokenUpdates.logAction(guildId, targetId, event.getUser().getIdLong(), updateTime,
 			EventActions.REMOVE_TOKENS, removeTokens, "-%d:%s".formatted(removeTokens, reason));
 

@@ -2,16 +2,16 @@ package votl.events.objects;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public enum EventActions {
-	ADD_TOKENS(0, "Add tokens", "(\\+\\d+):(.+)"),
-	REMOVE_TOKENS(1, "Remove tokens", "(-\\d+):(.+)");
+	ADD_TOKENS(0, "Add tokens"),			// +15:Reason
+	REMOVE_TOKENS(1, "Remove tokens"),	// -15:Reason
+	TRANSFER(2, "Transfer tokens"),		// target_user_id
+	BUY_ITEM(3, "Buy item"),				// item_id
+	EXCHANGED(4, "Exchanged for Coins");
 	
 	private final Integer type;
 	private final String name;
-	private final Pattern pattern;
 
 	private static final Map<Integer, EventActions> BY_TYPE = new HashMap<Integer, EventActions>();
 
@@ -21,10 +21,9 @@ public enum EventActions {
 		}
 	}
 
-	EventActions(Integer type, String name, String regex) {
+	EventActions(Integer type, String name) {
 		this.type = type;
 		this.name = name;
-		this.pattern = Pattern.compile(regex);
 	}
 
 	public Integer getType() {
@@ -33,14 +32,6 @@ public enum EventActions {
 
 	public String getName() {
 		return this.name;
-	}
-
-	public Pattern getPattern() {
-		return this.pattern;
-	}
-
-	public Matcher matches(String text) {
-		return pattern.matcher(text);
 	}
 
 	public static EventActions byType(Integer type) {
