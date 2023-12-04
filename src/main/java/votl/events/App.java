@@ -27,8 +27,9 @@ import votl.events.commands.other.HelpCmd;
 import votl.events.commands.other.PingCmd;
 import votl.events.commands.owner.ShutdownCmd;
 import votl.events.commands.tokens.AddCmd;
+import votl.events.commands.tokens.LeaderboardCmd;
 import votl.events.commands.tokens.RemoveCmd;
-import votl.events.commands.tokens.ViewCmd;
+import votl.events.commands.tokens.TokensCmd;
 import votl.events.listener.AutoCompleteListener;
 import votl.events.listener.CommandListener;
 import votl.events.listener.GuildListener;
@@ -106,9 +107,10 @@ public class App {
 				new PingCmd(this),
 				new HelpCmd(this),
 				// Tokens
-				new ViewCmd(this),
+				new TokensCmd(this),
 				new AddCmd(this),
-				new RemoveCmd(this)
+				new RemoveCmd(this),
+				new LeaderboardCmd(this)
 			)
 			.build();
 

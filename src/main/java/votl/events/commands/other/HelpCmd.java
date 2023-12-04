@@ -71,7 +71,8 @@ public class HelpCmd extends CommandBase {
 					.replace("{category}", Optional.ofNullable(command.getCategory())
 						.map(cat -> lu.getLocalized(userLocale, "bot.help.command_menu.categories."+cat.getName())).orElse(Constants.NONE))
 					.replace("{owner}", command.isOwnerCommand() ? Emotes.CHECK_C.getEmote() : Emotes.CROSS_C.getEmote())
-					.replace("{guild}", command.isGuildOnly() ? Emotes.CROSS_C.getEmote() : Emotes.CHECK_C.getEmote()))
+					.replace("{guild}", command.isGuildOnly() ? Emotes.CROSS_C.getEmote() : Emotes.CHECK_C.getEmote())
+					.replace("{admin}", command.isAdminCommand() ? Emotes.CROSS_C.getEmote() : Emotes.CHECK_C.getEmote()))
 				.addField(lu.getLocalized(userLocale, "bot.help.command_info.help_title"), lu.getLocalized(userLocale, command.getHelpPath()), false)
 				.addField(lu.getLocalized(userLocale, "bot.help.command_info.usage_title"), getUsageText(userLocale, command), false)
 				.setFooter(lu.getLocalized(userLocale, "bot.help.command_info.usage_subvalue"));

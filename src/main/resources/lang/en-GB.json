@@ -92,7 +92,7 @@
 				"docs": "Docs",
 				"no_command": "The provided command doesn't exist!\nMake sure you typed it correctly.",
 				"title": "Command help: {command}",
-				"value": "Category: **{category}**\nOwner command: {owner}\nCan be used in DMs: {guild}\nModule: **{module}**",
+				"value": "Category: **{category}**\nOwner command: {owner}\nCan be used in DMs: {guild}\nAdmin command: **{admin}**",
 				"help_title": "Description",
 				"usage_title": "Usage options",
 				"usage_value": "```/{usage}```",
