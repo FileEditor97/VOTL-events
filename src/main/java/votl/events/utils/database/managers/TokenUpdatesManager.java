@@ -17,15 +17,15 @@ public class TokenUpdatesManager extends SQLiteBase {
 		super(util);
 	}
 
-	public void logAction(Long guildId, Long targetId, Long modId, Long epochSeconds, EventActions actionType, Integer tokenAmount, String data) {
-		execute("INSERT INTO %s(guildId, targetId, modId, datetime, type, tokenAmount, data) VALUES(%d, %d, %d, %d, %d, %d, %s)"
-			.formatted(table, guildId, targetId, modId, epochSeconds, actionType.getType(), tokenAmount, quote(data)));
+	public void logAction(Long guildId, Long targetId, Long creatorId, Long epochSeconds, EventActions actionType, Integer tokenAmount, String data) {
+		execute("INSERT INTO %s(guildId, targetId, creatorId, datetime, type, tokenAmount, data) VALUES(%d, %d, %d, %d, %d, %d, %s)"
+			.formatted(table, guildId, targetId, creatorId, epochSeconds, actionType.getType(), tokenAmount, quote(data)));
 	}
 
 	// Get user's last log
 	public EventLog getUserLastLog(Long guildId, Long targetId) {
 		final String sql = "SELECT * FROM %s WHERE (guildId=%d AND targetId=%d) ORDER BY id DESC LIMIT 1;".formatted(table, guildId, targetId);
-		Map<String, Object> data = selectOne(sql, List.of("id", "guildId", "targetId", "modId", "datetime", "type", "data"));
+		Map<String, Object> data = selectOne(sql, List.of("id", "guildId", "targetId", "creatorId", "datetime", "type", "data"));
 		if (data == null || data.isEmpty()) return null;
 		return new EventLog(data);
 	}
@@ -33,7 +33,7 @@ public class TokenUpdatesManager extends SQLiteBase {
 	// Get log by ID
 	public EventLog getLogById(Integer id) {
 		final String sql = "SELECT * FROM %s WHERE (id=%d);".formatted(table, id);
-		Map<String, Object> data = selectOne(sql, List.of("id", "guildId", "targetId", "modId", "datetime", "type", "data"));
+		Map<String, Object> data = selectOne(sql, List.of("id", "guildId", "targetId", "creatorId", "datetime", "type", "data"));
 		if (data == null || data.isEmpty()) return null;
 		return new EventLog(data);
 	}
@@ -41,7 +41,7 @@ public class TokenUpdatesManager extends SQLiteBase {
 	// Get user's logs
 	public List<EventLog> getUserLogs(Long guildId, Long targetId, int offset, int count) {
 		final String sql = "SELECT * FROM %s WHERE (guildId=%d AND targetId=%d) ORDER BY id DESC LIMIT %d, %d;".formatted(table, guildId, targetId, offset, count);
-		List<Map<String, Object>> data = select(sql, List.of("id", "guildId", "targetId", "modId", "datetime", "type", "data"));
+		List<Map<String, Object>> data = select(sql, List.of("id", "guildId", "targetId", "creatorId", "datetime", "type", "data"));
 		if (data == null || data.isEmpty()) return List.of();
 		return data.stream().map(map -> new EventLog(map)).toList();
 	}
@@ -49,7 +49,7 @@ public class TokenUpdatesManager extends SQLiteBase {
 	// Get logs in guild
 	public List<EventLog> getLogs(Long guildId, int offset, int count) {
 		final String sql = "SELECT * FROM %s WHERE (guildId=%d) ORDER BY id DESC LIMIT %d, %d;".formatted(table, guildId, offset, count);
-		List<Map<String, Object>> data = select(sql, List.of("id", "guildId", "targetId", "modId", "datetime", "type", "data"));
+		List<Map<String, Object>> data = select(sql, List.of("id", "guildId", "targetId", "creatorId", "datetime", "type", "data"));
 		if (data == null || data.isEmpty()) return List.of();
 		return data.stream().map(map -> new EventLog(map)).toList();
 	}

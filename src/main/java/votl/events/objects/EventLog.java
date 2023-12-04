@@ -10,7 +10,7 @@ public class EventLog {
 	private final Integer id;
 	private final long guildId;
 	private final long targetId;
-	private final long modId;
+	private final long creatorId;
 	private final Instant time;
 	private final EventActions eventType;
 	private String data;
@@ -19,7 +19,7 @@ public class EventLog {
 		this.id = (Integer) map.get("id");
 		this.guildId = ((Number) map.get("guildId")).longValue();
 		this.targetId = ((Number) map.get("targetId")).longValue();
-		this.modId = ((Number) map.get("modId")).longValue();
+		this.creatorId = ((Number) map.get("creatorId")).longValue();
 		this.time = Instant.ofEpochSecond(((Number) map.get("datetime")).longValue());
 		this.eventType = EventActions.byType((Integer) map.get("type"));
 		this.data = (String) map.get("data");
@@ -37,8 +37,8 @@ public class EventLog {
 		return targetId;
 	}
 
-	public Long getModId() {
-		return modId;
+	public Long getCreatorId() {
+		return creatorId;
 	}
 
 	public Instant getTime() {

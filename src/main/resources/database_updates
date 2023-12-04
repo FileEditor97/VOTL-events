@@ -1,1 +1,2 @@
 ALTER TABLE "tokenUpdates" ADD "tokenAmount" INTEGER;
+ALTER TABLE "tokenUpdates" RENAME "modId" TO "creatorId";
