@@ -115,16 +115,16 @@
 			}
 		},
 		"tokens": {
-			"view": {
+			"tokens": {
 				"help": "View the current amount of tokens",
-				"usage": "view [@User] [View history?]",
+				"usage": "tokens [@User] [View history?]",
 				"user": {
 					"name": "user",
 					"help": "Select which user to view"
 				},
 				"history": {
 					"name": "history",
-					"help": "View token transaction history?"
+					"help": "View tokens transaction history?"
 				},
 				"embed": {
 					"title": "%s profile",
@@ -169,6 +169,19 @@
 				"no_reason": "-",
 				"not_enought": "User lacks required token amount. Enter exact amount to remove all tokens.",
 				"done": "Removed {amount} tokens to the user {user}."
+			},
+			"leaderboard": {
+				"help": "See tokens leaderboard",
+				"usage": "leaderboard [full?]",
+				"full": {
+					"name": "full",
+					"help": "Show TOP tokens earners and spenders?"
+				},
+				"title": "Leaderboard",
+				"amount": "By current amount",
+				"earned": "By amount earned",
+				"spend": "By amount spend",
+				"empty": "No data"
 			}
 		}
 	}

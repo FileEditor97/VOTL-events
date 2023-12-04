@@ -18,14 +18,14 @@ import votl.events.objects.EventActions;
 import votl.events.objects.EventLog;
 import votl.events.objects.constants.CmdCategory;
 
-public class ViewCmd extends CommandBase {
+public class TokensCmd extends CommandBase {
 
 	final List<EventActions> allowed = List.of(EventActions.ADD_TOKENS, EventActions.REMOVE_TOKENS);
 	
-	public ViewCmd(App bot) {
+	public TokensCmd(App bot) {
 		super(bot);
-		this.name = "view";
-		this.path = "bot.tokens.view";
+		this.name = "tokens";
+		this.path = "bot.tokens.tokens";
 		this.options = List.of(
 			new OptionData(OptionType.USER, "user", lu.getText(path+".user.help")),
 			new OptionData(OptionType.BOOLEAN, "history", lu.getText(path+".history.help"))
@@ -44,9 +44,9 @@ public class ViewCmd extends CommandBase {
 
 		Integer tokenAmount = bot.getDBUtil().tokens.getTokens(event.getGuild().getIdLong(), target.getIdLong());
 
-		EmbedBuilder builder = bot.getEmbedUtil().getEmbed(event)
+		EmbedBuilder builder = bot.getEmbedUtil().getEmbed(event).setColor(0xA40808)
 			.setTitle(lu.getText(event, path+".embed.title").formatted(event.getUser().getName()))
-			.setThumbnail(target.getAvatarUrl())
+			.setThumbnail(target.getEffectiveAvatarUrl())
 			.addField(lu.getText(event, path+".embed.tokens"), tokenAmount.toString()+" "+Emotes.RISE_TOKEN.getEmote(), false);
 
 		if (showHistory) {

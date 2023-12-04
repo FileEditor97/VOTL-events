@@ -2,6 +2,7 @@ package votl.events.utils.database.managers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import votl.events.objects.EventActions;
 import votl.events.objects.EventLog;
@@ -16,9 +17,9 @@ public class TokenUpdatesManager extends SQLiteBase {
 		super(util);
 	}
 
-	public void logAction(Long guildId, Long targetId, Long modId, Long epochSeconds, EventActions actionType, String data) {
-		execute("INSERT INTO %s(guildId, targetId, modId, datetime, type, data) VALUES(%d, %d, %d, %d, %d, %s)"
-			.formatted(table, guildId, targetId, modId, epochSeconds, actionType.getType(), quote(data)));
+	public void logAction(Long guildId, Long targetId, Long modId, Long epochSeconds, EventActions actionType, Integer tokenAmount, String data) {
+		execute("INSERT INTO %s(guildId, targetId, modId, datetime, type, tokenAmount, data) VALUES(%d, %d, %d, %d, %d, %d, %s)"
+			.formatted(table, guildId, targetId, modId, epochSeconds, actionType.getType(), tokenAmount, quote(data)));
 	}
 
 	// Get user's last log
@@ -54,13 +55,28 @@ public class TokenUpdatesManager extends SQLiteBase {
 	}
 
 	// Count all user's logs
-	public Integer countUserLogs(Long guildId, Long userId) {
-		return selectOne("SELECT COUNT(*) AS counted FROM %s WHERE (guildId=%d AND userId=%d);".formatted(table, guildId, userId), "counted", Integer.class);
+	public Integer countUserLogs(Long guildId, Long targetId) {
+		return selectOne("SELECT COUNT(*) AS counted FROM %s WHERE (guildId=%d AND targetId=%d);".formatted(table, guildId, targetId), "counted", Integer.class);
 	}
 
 	// Count all logs in guild
 	public Integer countLogs(Long guildId) {
 		return selectOne("SELECT COUNT(*) AS counted FROM %s WHERE (guildId=%d);".formatted(table, guildId), "counted", Integer.class);
+	}
+
+	// Leaderboard
+	public Map<Long, Integer> getTopEarned(Long guildId) {
+		final String sql = "SELECT targetId, SUM(tokenAmount) AS earned FROM %s WHERE (guildId=%d AND type=0) GROUP BY targetId ORDER BY earned DESC LIMIT 10;".formatted(table, guildId);
+		List<Map<String, Object>> data = select(sql, List.of("targetId", "earned"));
+		if (data == null || data.isEmpty()) return Map.of();
+		return data.stream().collect(Collectors.toMap(m -> ((Number) m.get("targetId")).longValue(), m -> (Integer) m.get("earned")));
+	}
+
+	public Map<Long, Integer> getTopSpend(Long guildId) {
+		final String sql = "SELECT targetId, -SUM(tokenAmount) AS spend FROM %s WHERE (guildId=%d AND type=1) GROUP BY targetId ORDER BY spend DESC LIMIT 10;".formatted(table, guildId);
+		List<Map<String, Object>> data = select(sql, List.of("targetId", "spend"));
+		if (data == null || data.isEmpty()) return Map.of();
+		return data.stream().collect(Collectors.toMap(m -> ((Number) m.get("targetId")).longValue(), m -> (Integer) m.get("spend")));
 	}
 	
 }

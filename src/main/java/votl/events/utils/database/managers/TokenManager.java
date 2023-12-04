@@ -1,5 +1,9 @@
 package votl.events.utils.database.managers;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import votl.events.utils.database.ConnectionUtil;
 import votl.events.utils.database.SQLiteBase;
 
@@ -32,6 +36,13 @@ public class TokenManager extends SQLiteBase {
 
 	public void removeUser(Long userId) {
 		execute("DELETE FROM %s WHERE (userId=%d);".formatted(table, userId));
+	}
+
+	// Leaderboard
+	public Map<Long, Integer> getTopAmount(Long guildId) {
+		List<Map<String, Object>> data = select("SELECT userId, tokens FROM %s WHERE (guildId=%d AND tokens>0) ORDER BY tokens DESC LIMIT 10;".formatted(table, guildId), List.of("userId", "tokens"));
+		if (data == null || data.isEmpty()) return Map.of();
+		return data.stream().collect(Collectors.toMap(m -> ((Number) m.get("userId")).longValue(), m -> (Integer) m.get("tokens")));
 	}
 
 }

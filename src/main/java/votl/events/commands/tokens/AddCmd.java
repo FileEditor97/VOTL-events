@@ -50,7 +50,7 @@ public class AddCmd extends CommandBase {
 		long updateTime = Instant.now().getEpochSecond();
 		bot.getDBUtil().tokens.addTokens(guildId, targetId, addTokens, updateTime);
 		bot.getDBUtil().tokenUpdates.logAction(guildId, targetId, event.getUser().getIdLong(), updateTime,
-			EventActions.ADD_TOKENS, "+%d:%s".formatted(addTokens, reason));
+			EventActions.ADD_TOKENS, addTokens, "+%d:%s".formatted(addTokens, reason));
 
 		event.replyEmbeds(new EmbedBuilder().setColor(Constants.COLOR_SUCCESS).setDescription(lu.getText(event, path+".done")
 				.replace("{user}", target.getAsMention())

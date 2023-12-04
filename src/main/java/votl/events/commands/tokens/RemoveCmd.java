@@ -57,7 +57,7 @@ public class RemoveCmd extends CommandBase {
 		long updateTime = Instant.now().getEpochSecond();
 		bot.getDBUtil().tokens.addTokens(guildId, targetId, -removeTokens, updateTime);
 		bot.getDBUtil().tokenUpdates.logAction(guildId, targetId, event.getUser().getIdLong(), updateTime,
-			EventActions.REMOVE_TOKENS, "-%d:%s".formatted(removeTokens, reason));
+			EventActions.REMOVE_TOKENS, removeTokens, "-%d:%s".formatted(removeTokens, reason));
 
 		event.getHook().editOriginalEmbeds(new EmbedBuilder().setColor(Constants.COLOR_SUCCESS).setDescription(lu.getText(event, path+".done")
 				.replace("{user}", target.getAsMention())
