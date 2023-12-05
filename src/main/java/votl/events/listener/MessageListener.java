@@ -68,5 +68,13 @@ public class MessageListener extends ListenerAdapter {
 		}
 		return false;
 	}
+
+	public Boolean removeKeyword(String trigger) {
+		for (Map<String, EmojiUnion> map : keywords.values()) {
+			if (map.remove(trigger) != null)
+				return true;
+		}
+		return false;
+	}
 	
 }

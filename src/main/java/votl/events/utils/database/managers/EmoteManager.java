@@ -31,6 +31,10 @@ public class EmoteManager extends SQLiteBase {
 		execute("DELETE FROM %s WHERE (trigger=%s)".formatted(table, quote(trigger)));
 	}
 
+	public void deleteEmote(int keywordId) {
+		execute("DELETE FROM %s WHERE (id=%d)".formatted(table, keywordId));
+	}
+
 	public Map<String, String> getEmotes(long guildId) {
 		final String sql = "SELECT trigger, emote FROM %s WHERE (guildId=%d);".formatted(table, guildId);
 		List<Map<String, Object>> data = select(sql, List.of("trigger", "emote"));
@@ -53,8 +57,8 @@ public class EmoteManager extends SQLiteBase {
 		return selectOne("SELECT id FROM %s WHERE (trigger=%s);".formatted(table, quote(trigger)), "id", Integer.class);
 	}
 
-	public List<Integer> getExpired() {
-		final String sql = "SELECT id FROM %s WHERE (until<%d);".formatted(table, Instant.now());
+	public List<Integer> getExpired(Instant currentTime) {
+		final String sql = "SELECT id FROM %s WHERE (until<%d);".formatted(table, currentTime.getEpochSecond());
 		return select(sql, "id", Integer.class);
 	}
 

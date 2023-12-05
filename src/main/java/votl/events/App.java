@@ -43,6 +43,7 @@ import votl.events.listener.MessageListener;
 import votl.events.objects.constants.Constants;
 import votl.events.objects.constants.Links;
 import votl.events.services.CountingThreadFactory;
+import votl.events.services.ScheduledCheck;
 import votl.events.utils.CheckUtil;
 import votl.events.utils.WebhookAppender;
 import votl.events.utils.database.DBUtil;
@@ -72,6 +73,7 @@ public class App {
 	private final CommandListener commandListener;
 
 	private final ScheduledExecutorService scheduledExecutor;
+	private final ScheduledCheck scheduledCheck;
 
 	private final DBUtil dbUtil;
 	private final LangUtil langUtil;
@@ -105,6 +107,9 @@ public class App {
 		commandListener = new CommandListener();
 
 		scheduledExecutor	= new ScheduledThreadPoolExecutor(3, new CountingThreadFactory("VOTL", "Scheduler", false));
+		scheduledCheck		= new ScheduledCheck(this);
+
+		scheduledExecutor.scheduleAtFixedRate(() -> scheduledCheck.rareChecks(), 3, 12, TimeUnit.HOURS);
 
 		// Define a command client
 		commandClient = new CommandClientBuilder()
@@ -229,6 +234,10 @@ public class App {
 
 	public Boolean removeEmojiKeyword(final Long guildId, final String trigger) {
 		return messageListener.removeKeyword(guildId, trigger);
+	}
+
+	public Boolean removeEmojiKeyword(final String trigger) {
+		return messageListener.removeKeyword(trigger);
 	}
 
 	public static void main(String[] args) {
