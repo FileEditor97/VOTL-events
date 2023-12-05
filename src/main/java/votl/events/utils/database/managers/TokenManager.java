@@ -3,8 +3,8 @@ package votl.events.utils.database.managers;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+import net.dv8tion.jda.internal.utils.tuple.Pair;
 import votl.events.utils.database.ConnectionUtil;
 import votl.events.utils.database.SQLiteBase;
 
@@ -40,10 +40,10 @@ public class TokenManager extends SQLiteBase {
 	}
 
 	// Leaderboard
-	public Map<Long, Integer> getTopAmount(long guildId) {
+	public List<Pair<Long, Integer>> getTopAmount(long guildId) {
 		List<Map<String, Object>> data = select("SELECT userId, tokens FROM %s WHERE (guildId=%d AND tokens>0) ORDER BY tokens DESC LIMIT 10;".formatted(table, guildId), List.of("userId", "tokens"));
-		if (data == null || data.isEmpty()) return Map.of();
-		return data.stream().collect(Collectors.toMap(m -> ((Number) m.get("userId")).longValue(), m -> (Integer) m.get("tokens")));
+		if (data == null || data.isEmpty()) return List.of();
+		return data.stream().map(map -> Pair.of(((Number) map.get("userId")).longValue(), (Integer) map.get("tokens"))).toList();
 	}
 
 }

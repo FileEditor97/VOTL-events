@@ -44,7 +44,7 @@ public class TokensCmd extends CommandBase {
 		Integer tokenAmount = bot.getDBUtil().tokens.getTokens(event.getGuild().getIdLong(), target.getIdLong());
 
 		EmbedBuilder builder = bot.getEmbedUtil().getEmbed(event).setColor(0xA40808)
-			.setTitle(lu.getText(event, path+".embed.title").formatted(event.getUser().getName()))
+			.setTitle(lu.getText(event, path+".embed.title").formatted(target.getUser().getName()))
 			.setThumbnail(target.getEffectiveAvatarUrl())
 			.addField(lu.getText(event, path+".embed.tokens"), tokenAmount.toString()+" "+Emotes.RISE_TOKEN.getEmote(), false);
 

@@ -5,8 +5,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import net.dv8tion.jda.internal.utils.tuple.Pair;
 import votl.events.objects.EventActions;
 import votl.events.objects.EventLog;
 import votl.events.utils.database.ConnectionUtil;
@@ -68,18 +68,18 @@ public class TokenUpdatesManager extends SQLiteBase {
 	}
 
 	// Leaderboard
-	public Map<Long, Integer> getTopEarned(long guildId) {
+	public List<Pair<Long, Integer>> getTopEarned(long guildId) {
 		final String sql = "SELECT targetId, SUM(tokenAmount) AS earned FROM %s WHERE (guildId=%d AND type=0) GROUP BY targetId ORDER BY earned DESC LIMIT 10;".formatted(table, guildId);
 		List<Map<String, Object>> data = select(sql, List.of("targetId", "earned"));
-		if (data == null || data.isEmpty()) return Map.of();
-		return data.stream().collect(Collectors.toMap(m -> ((Number) m.get("targetId")).longValue(), m -> (Integer) m.get("earned")));
+		if (data == null || data.isEmpty()) return List.of();
+		return data.stream().map(map -> Pair.of(((Number) map.get("targetId")).longValue(), (Integer) map.get("earned"))).toList();
 	}
 
-	public Map<Long, Integer> getTopSpend(long guildId) {
+	public List<Pair<Long, Integer>> getTopSpend(long guildId) {
 		final String sql = "SELECT targetId, -SUM(tokenAmount) AS spend FROM %s WHERE (guildId=%d AND type=3) GROUP BY targetId ORDER BY spend DESC LIMIT 10;".formatted(table, guildId);
 		List<Map<String, Object>> data = select(sql, List.of("targetId", "spend"));
-		if (data == null || data.isEmpty()) return Map.of();
-		return data.stream().collect(Collectors.toMap(m -> ((Number) m.get("targetId")).longValue(), m -> (Integer) m.get("spend")));
+		if (data == null || data.isEmpty()) return List.of();
+		return data.stream().map(map -> Pair.of(((Number) map.get("targetId")).longValue(), (Integer) map.get("spend"))).toList();
 	}
 
 	// For limits checking

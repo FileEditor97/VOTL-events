@@ -1,13 +1,13 @@
 package votl.events.commands.tokens;
 
 import java.util.List;
-import java.util.Map;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.internal.utils.tuple.Pair;
 import votl.events.App;
 import votl.events.base.command.SlashCommandEvent;
 import votl.events.commands.CommandBase;
@@ -40,13 +40,13 @@ public class LeaderboardCmd extends CommandBase {
 		event.getHook().editOriginalEmbeds(builder.build()).queue();
 	}
 
-	private Field createField(final DiscordLocale locale, final String titlePath, final boolean inline, Map<Long, Integer> data) {
+	private Field createField(final DiscordLocale locale, final String titlePath, final boolean inline, List<Pair<Long, Integer>> data) {
 		if (data.isEmpty()) {
 			return new Field(lu.getLocalized(locale, titlePath), lu.getLocalized(locale, path+".empty"), inline);
 		}
 		StringBuffer buffer = new StringBuffer();
-		data.forEach((userId, amount) -> {
-			buffer.append("1. <@%s> | **%d**\n".formatted(userId, amount));
+		data.forEach(entry -> {
+			buffer.append("1. <@%s> | **%d**\n".formatted(entry.getLeft(), entry.getRight()));
 		});
 		return new Field(lu.getLocalized(locale, titlePath), buffer.toString(), inline);
 	}
