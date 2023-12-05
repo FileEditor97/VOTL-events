@@ -35,6 +35,26 @@ public class SQLiteBase {
 		return result;
 	}
 
+	protected <T> List<T> select(final String sql, String selectKey, Class<T> className) {
+		List<T> results = new ArrayList<>();
+
+		util.logger.debug(sql);
+		try (PreparedStatement st = util.prepareStatement(sql)) {
+			ResultSet rs = st.executeQuery();
+			
+			while (rs.next()) {
+				try {
+					results.add(rs.getObject(selectKey, className));
+				} catch (SQLException ex) {
+					if (!rs.wasNull()) throw ex;
+				}
+			}
+		} catch (SQLException ex) {
+			util.logger.warn("DB SQLite: Error at SELECT\nrequest: {}", sql, ex);
+		}
+		return results;
+	}
+
 	protected Map<String, Object> selectOne(final String sql, final List<String> selectKeys) {
 		Map<String, Object> result = new HashMap<>();
 

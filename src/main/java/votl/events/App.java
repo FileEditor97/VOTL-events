@@ -1,7 +1,9 @@
 package votl.events;
 
 import java.util.Optional;
-
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +15,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.emoji.EmojiUnion;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.interactions.DiscordLocale;
@@ -24,6 +27,7 @@ import votl.events.base.command.CommandClient;
 import votl.events.base.command.CommandClientBuilder;
 import votl.events.base.waiter.EventWaiter;
 import votl.events.commands.manage.BankCmd;
+import votl.events.commands.manage.EmotesCmd;
 import votl.events.commands.other.HelpCmd;
 import votl.events.commands.other.PingCmd;
 import votl.events.commands.owner.ShutdownCmd;
@@ -35,8 +39,10 @@ import votl.events.commands.tokens.TransferCmd;
 import votl.events.listener.AutoCompleteListener;
 import votl.events.listener.CommandListener;
 import votl.events.listener.GuildListener;
+import votl.events.listener.MessageListener;
 import votl.events.objects.constants.Constants;
 import votl.events.objects.constants.Links;
+import votl.events.services.CountingThreadFactory;
 import votl.events.utils.CheckUtil;
 import votl.events.utils.WebhookAppender;
 import votl.events.utils.database.DBUtil;
@@ -62,7 +68,10 @@ public class App {
 
 	private final AutoCompleteListener acListener;
 	private final GuildListener guildListener;
+	private final MessageListener messageListener;
 	private final CommandListener commandListener;
+
+	private final ScheduledExecutorService scheduledExecutor;
 
 	private final DBUtil dbUtil;
 	private final LangUtil langUtil;
@@ -92,7 +101,10 @@ public class App {
 
 		WAITER      = new EventWaiter();
 		guildListener   = new GuildListener(this);
+		messageListener = new MessageListener(this);
 		commandListener = new CommandListener();
+
+		scheduledExecutor	= new ScheduledThreadPoolExecutor(3, new CountingThreadFactory("VOTL", "Scheduler", false));
 
 		// Define a command client
 		commandClient = new CommandClientBuilder()
@@ -100,6 +112,7 @@ public class App {
 			.setServerInvite(Links.DISCORD)
 			.setStatus(OnlineStatus.ONLINE)
 			.setActivity(Activity.customStatus(">>>  /help  <<<"))
+			.setScheduleExecutor(scheduledExecutor)
 			.setListener(commandListener)
 			.setDevGuildIds(fileManager.getStringList("config", "dev-servers").toArray(new String[0]))
 			.addSlashCommands(
@@ -115,7 +128,8 @@ public class App {
 				new LeaderboardCmd(this),
 				new TransferCmd(this),
 				// Manage
-				new BankCmd(this)
+				new BankCmd(this),
+				new EmotesCmd(this)
 			)
 			.build();
 
@@ -128,16 +142,15 @@ public class App {
 			.setEnabledIntents(
 				GatewayIntent.GUILD_MEMBERS,			// required for updating member profiles and ChunkingFilter
 				GatewayIntent.GUILD_MESSAGES,			// checks for verified
-				GatewayIntent.GUILD_VOICE_STATES		// required for CF VOICE_STATE and CP VOICE
+				GatewayIntent.MESSAGE_CONTENT			// search for keyword
 			)
 			.setMemberCachePolicy(policy)
 			.setChunkingFilter(ChunkingFilter.ALL)		// chunk all guilds
 			.enableCache(
 				CacheFlag.MEMBER_OVERRIDES,		// channel permission overrides
-				CacheFlag.ROLE_TAGS,			// role search
-				CacheFlag.VOICE_STATE			// get members voice status
+				CacheFlag.ROLE_TAGS				// role search
 			)
-			.addEventListeners(commandClient, WAITER, acListener, guildListener);
+			.addEventListeners(commandClient, WAITER, acListener, guildListener, messageListener);
 		
 		JDA jda = null;
 
@@ -202,12 +215,30 @@ public class App {
 		return embedUtil;
 	}
 
+	public ScheduledExecutorService getExecutorService() {
+		return scheduledExecutor;
+	}
+
+	protected void setupKeywords() {
+		messageListener.setupKeywords();
+	}
+
+	public void addEmojiKeyword(final Long guildId, final String trigger, final EmojiUnion emoji) {
+		messageListener.addKeyword(guildId, trigger, emoji);
+	}
+
+	public Boolean removeEmojiKeyword(final Long guildId, final String trigger) {
+		return messageListener.removeKeyword(guildId, trigger);
+	}
+
 	public static void main(String[] args) {
 		Message.suppressContentIntentWarning();
 
 		instance = new App();
 		instance.createWebhookAppender();
 		instance.logger.info("Success start");
+
+		instance.getExecutorService().schedule(() -> instance.setupKeywords(), 10, TimeUnit.SECONDS);
 	}
 
 	private void createWebhookAppender() {

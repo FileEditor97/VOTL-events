@@ -242,6 +242,44 @@
 				"changed_exchange_max": "Exchange maximum set to %d.",
 				"no_options": "No options to be updated.",
 				"embed_title": "Updated bank's settings."
+			},
+			"emotes": {
+				"help": "Manage keyword reactions",
+				"usage": "emotes",
+				"add": {
+					"help": "Add reaction emote",
+					"usage": "add <trigger keyword> <emoji> [Expires after]",
+					"trigger": {
+						"name": "trigger",
+						"help": "Enter word or phrase to which bot will react"
+					},
+					"emoji": {
+						"name": "emoji",
+						"help": "Enter emoji with which bot will react"
+					},
+					"expire_days": {
+						"name": "expire_days",
+						"help": "Enter amount of days after which this keyword will expire"
+					},
+					"done": "Added keyword `%s` with reaction %s."
+				},
+				"remove": {
+					"help": "Remove reaction emote",
+					"usage": "remove <trigger keyword>",
+					"trigger": {
+						"name": "trigger",
+						"help": "Enter word or phrase which to remove"
+					},
+					"not_found": "Keyword not found.",
+					"done_deleted": "Keyword `%s` removed and deleted.",
+					"done": "Keyword `%s` removed."
+				},
+				"view": {
+					"help": "View keyword reactions",
+					"usage": "view",
+					"empty": "No data",
+					"title": "Reaction keywords"
+				}
 			}
 		}
 	}
