@@ -60,7 +60,7 @@ public class RemoveCmd extends CommandBase {
 		if (event.optBoolean("to_bank", false))
 			bot.getDBUtil().bank.changeAmount(guildId, removeTokens);
 		bot.getDBUtil().tokenUpdates.logAction(guildId, targetId, event.getUser().getIdLong(), updateTime,
-			EventActions.REMOVE_TOKENS, removeTokens, "-%d:%s".formatted(removeTokens, reason));
+			EventActions.REMOVE_TOKENS, -removeTokens, reason);
 
 		event.getHook().editOriginalEmbeds(new EmbedBuilder().setColor(Constants.COLOR_SUCCESS).setDescription(lu.getText(event, path+".done")
 				.replace("{user}", target.getAsMention())
