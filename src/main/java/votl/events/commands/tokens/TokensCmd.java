@@ -14,7 +14,7 @@ import votl.events.base.command.SlashCommandEvent;
 import votl.events.commands.CommandBase;
 import votl.events.objects.Emotes;
 import votl.events.objects.EventActions;
-import votl.events.objects.EventLog;
+import votl.events.objects.ActionLog;
 import votl.events.objects.constants.CmdCategory;
 
 public class TokensCmd extends CommandBase {
@@ -58,9 +58,9 @@ public class TokensCmd extends CommandBase {
 		event.getHook().editOriginalEmbeds(builder.build()).queue();
 	}
 
-	private String getHistory(DiscordLocale locale, List<EventLog> input) {
+	private String getHistory(DiscordLocale locale, List<ActionLog> input) {
 		StringBuffer buffer = new StringBuffer();
-		List<EventLog> actions = input.stream().filter(event -> allowed.contains(event.getEventType())).toList();
+		List<ActionLog> actions = input.stream().filter(event -> allowed.contains(event.getEventType())).toList();
 		
 		if (actions.isEmpty())
 			buffer.append(lu.getLocalized(locale, path+".embed.empty"));

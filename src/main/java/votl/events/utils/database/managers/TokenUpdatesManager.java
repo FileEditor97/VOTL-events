@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import net.dv8tion.jda.internal.utils.tuple.Pair;
 import votl.events.objects.EventActions;
-import votl.events.objects.EventLog;
+import votl.events.objects.ActionLog;
 import votl.events.utils.database.ConnectionUtil;
 import votl.events.utils.database.SQLiteBase;
 
@@ -26,35 +26,35 @@ public class TokenUpdatesManager extends SQLiteBase {
 	}
 
 	// Get user's last log
-	public EventLog getUserLastLog(long guildId, long targetId) {
+	public ActionLog getUserLastLog(long guildId, long targetId) {
 		final String sql = "SELECT * FROM %s WHERE (guildId=%d AND targetId=%d) ORDER BY id DESC LIMIT 1;".formatted(table, guildId, targetId);
 		Map<String, Object> data = selectOne(sql, List.of("id", "guildId", "targetId", "creatorId", "datetime", "type", "tokenAmount", "reason"));
 		if (data == null || data.isEmpty()) return null;
-		return new EventLog(data);
+		return new ActionLog(data);
 	}
 
 	// Get log by ID
-	public EventLog getLogById(int id) {
+	public ActionLog getLogById(int id) {
 		final String sql = "SELECT * FROM %s WHERE (id=%d);".formatted(table, id);
 		Map<String, Object> data = selectOne(sql, List.of("id", "guildId", "targetId", "creatorId", "datetime", "type", "tokenAmount", "reason"));
 		if (data == null || data.isEmpty()) return null;
-		return new EventLog(data);
+		return new ActionLog(data);
 	}
 
 	// Get user's logs
-	public List<EventLog> getUserLogs(long guildId, long targetId, int offset, int count) {
+	public List<ActionLog> getUserLogs(long guildId, long targetId, int offset, int count) {
 		final String sql = "SELECT * FROM %s WHERE (guildId=%d AND targetId=%d) ORDER BY id DESC LIMIT %d, %d;".formatted(table, guildId, targetId, offset, count);
 		List<Map<String, Object>> data = select(sql, List.of("id", "guildId", "targetId", "creatorId", "datetime", "type", "tokenAmount", "reason"));
 		if (data == null || data.isEmpty()) return List.of();
-		return data.stream().map(map -> new EventLog(map)).toList();
+		return data.stream().map(map -> new ActionLog(map)).toList();
 	}
 
 	// Get logs in guild
-	public List<EventLog> getLogs(long guildId, int offset, int count) {
+	public List<ActionLog> getLogs(long guildId, int offset, int count) {
 		final String sql = "SELECT * FROM %s WHERE (guildId=%d) ORDER BY id DESC LIMIT %d, %d;".formatted(table, guildId, offset, count);
 		List<Map<String, Object>> data = select(sql, List.of("id", "guildId", "targetId", "creatorId", "datetime", "type", "tokenAmount", "reason"));
 		if (data == null || data.isEmpty()) return List.of();
-		return data.stream().map(map -> new EventLog(map)).toList();
+		return data.stream().map(map -> new ActionLog(map)).toList();
 	}
 
 	// Count all user's logs
@@ -69,14 +69,14 @@ public class TokenUpdatesManager extends SQLiteBase {
 
 	// Leaderboard
 	public List<Pair<Long, Integer>> getTopEarned(long guildId) {
-		final String sql = "SELECT targetId, SUM(tokenAmount) AS earned FROM %s WHERE (guildId=%d AND type=0) GROUP BY targetId ORDER BY earned DESC LIMIT 10;".formatted(table, guildId);
+		final String sql = "SELECT targetId, SUM(tokenAmount) AS earned FROM %s WHERE (guildId=%d AND type IN (1)) GROUP BY targetId ORDER BY earned DESC LIMIT 10;".formatted(table, guildId);
 		List<Map<String, Object>> data = select(sql, List.of("targetId", "earned"));
 		if (data == null || data.isEmpty()) return List.of();
 		return data.stream().map(map -> Pair.of(((Number) map.get("targetId")).longValue(), (Integer) map.get("earned"))).toList();
 	}
 
 	public List<Pair<Long, Integer>> getTopSpend(long guildId) {
-		final String sql = "SELECT targetId, -SUM(tokenAmount) AS spend FROM %s WHERE (guildId=%d AND type=3) GROUP BY targetId ORDER BY spend DESC LIMIT 10;".formatted(table, guildId);
+		final String sql = "SELECT targetId, -SUM(tokenAmount) AS spend FROM %s WHERE (guildId=%d AND type IN (3, 4)) GROUP BY targetId ORDER BY spend DESC LIMIT 10;".formatted(table, guildId);
 		List<Map<String, Object>> data = select(sql, List.of("targetId", "spend"));
 		if (data == null || data.isEmpty()) return List.of();
 		return data.stream().map(map -> Pair.of(((Number) map.get("targetId")).longValue(), (Integer) map.get("spend"))).toList();

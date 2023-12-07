@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
-public class EventLog {
+public class ActionLog {
 	
 	private final int id;
 	private final long guildId;
@@ -16,7 +16,7 @@ public class EventLog {
 	private final int tokenAmount;
 	private final String reason;
 
-	public EventLog(@NotNull Map<String, Object> map) {
+	public ActionLog(@NotNull Map<String, Object> map) {
 		this.id = (Integer) map.get("id");
 		this.guildId = ((Number) map.get("guildId")).longValue();
 		this.targetId = ((Number) map.get("targetId")).longValue();
