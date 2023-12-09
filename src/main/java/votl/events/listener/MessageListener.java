@@ -28,7 +28,7 @@ public class MessageListener extends ListenerAdapter {
 		if (keywords.isEmpty()) return;
 
 		Map<String, EmojiUnion> map = keywords.get(event.getGuild().getIdLong());
-		if (map.isEmpty()) return;
+		if (map == null || map.isEmpty()) return;
 
 		String content = event.getMessage().getContentStripped().toLowerCase();
 		map.entrySet().forEach(set -> {

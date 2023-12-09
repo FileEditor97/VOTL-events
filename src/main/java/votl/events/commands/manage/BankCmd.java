@@ -44,7 +44,7 @@ public class BankCmd extends CommandBase {
 
 			try {
 				bot.getCheckUtil().hasPermissions(event, event.getGuild(), event.getMember(), true, channel,
-					new Permission[]{Permission.MESSAGE_SEND, Permission.MESSAGE_EMBED_LINKS});
+					new Permission[]{Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_EMBED_LINKS});
 			} catch (CheckException ex) {
 				event.getHook().editOriginal(ex.getEditData()).queue();
 				return;
@@ -84,8 +84,8 @@ public class BankCmd extends CommandBase {
 			return;
 		}
 		editHookEmbed(event, bot.getEmbedUtil().getEmbed(event)
-			.setDescription(lu.getText(event, path+".embed_title"))
-			.appendDescription(response.toString())
+			.setTitle(lu.getText(event, path+".embed_title"))
+			.setDescription(response.toString())
 			.setColor(Constants.COLOR_SUCCESS)
 			.build());
 	}

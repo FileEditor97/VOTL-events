@@ -101,7 +101,7 @@ public class App {
 		messageUtil = new MessageUtil(this);
 		embedUtil	= new EmbedUtil(localeUtil);
 
-		WAITER      = new EventWaiter();
+		WAITER      	= new EventWaiter();
 		guildListener   = new GuildListener(this);
 		messageListener = new MessageListener(this);
 		commandListener = new CommandListener();
@@ -109,7 +109,7 @@ public class App {
 		scheduledExecutor	= new ScheduledThreadPoolExecutor(3, new CountingThreadFactory("VOTL", "Scheduler", false));
 		scheduledCheck		= new ScheduledCheck(this);
 
-		scheduledExecutor.scheduleAtFixedRate(() -> scheduledCheck.rareChecks(), 3, 12, TimeUnit.HOURS);
+		scheduledExecutor.scheduleAtFixedRate(() -> scheduledCheck.rareChecks(), 2, 12, TimeUnit.HOURS);
 
 		// Define a command client
 		commandClient = new CommandClientBuilder()

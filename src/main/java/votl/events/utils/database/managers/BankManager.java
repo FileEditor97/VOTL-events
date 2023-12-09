@@ -69,7 +69,9 @@ public class BankManager extends SQLiteBase {
 
 	@Nullable
 	public Float getExchangeRate(long guildId) {
-		return selectOne("SELECT exchangeRate FROM %s WHERE (guildId=%d);".formatted(table, guildId), "exchangeRate", Float.class);
+		Float data = selectOne("SELECT exchangeRate FROM %s WHERE (guildId=%d);".formatted(table, guildId), "exchangeRate", Float.class);
+		if (data == null) return 0f;
+		return data;
 	}
 
 	public void setExchangeAmountMin(long guildId, int minAmount) {
