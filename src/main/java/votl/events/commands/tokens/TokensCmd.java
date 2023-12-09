@@ -13,13 +13,13 @@ import votl.events.App;
 import votl.events.base.command.SlashCommandEvent;
 import votl.events.commands.CommandBase;
 import votl.events.objects.Emotes;
-import votl.events.objects.EventActions;
+import votl.events.objects.ActionLog.EventAction;
 import votl.events.objects.ActionLog;
 import votl.events.objects.constants.CmdCategory;
 
 public class TokensCmd extends CommandBase {
 
-	final List<EventActions> allowed = List.of(EventActions.ADD_TOKENS, EventActions.REMOVE_TOKENS, EventActions.TRANSFER);
+	final List<EventAction> allowed = List.of(EventAction.ADD_TOKENS, EventAction.REMOVE_TOKENS, EventAction.TRANSFER, EventAction.BUY_ITEM);
 	
 	public TokensCmd(App bot) {
 		super(bot);

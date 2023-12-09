@@ -11,7 +11,7 @@ import votl.events.App;
 import votl.events.base.command.CooldownScope;
 import votl.events.base.command.SlashCommandEvent;
 import votl.events.commands.CommandBase;
-import votl.events.objects.EventActions;
+import votl.events.objects.ActionLog.EventAction;
 import votl.events.objects.constants.CmdCategory;
 import votl.events.objects.constants.Constants;
 
@@ -56,11 +56,11 @@ public class RemoveCmd extends CommandBase {
 		}
 
 		Instant updateTime = Instant.now();
-		bot.getDBUtil().tokens.addTokens(guildId, targetId, -removeTokens, updateTime);
+		bot.getDBUtil().tokens.changeTokens(guildId, targetId, -removeTokens, updateTime);
 		if (event.optBoolean("to_bank", false))
 			bot.getDBUtil().bank.changeAmount(guildId, removeTokens);
 		bot.getDBUtil().tokenUpdates.logAction(guildId, targetId, event.getUser().getIdLong(), updateTime,
-			EventActions.REMOVE_TOKENS, -removeTokens, reason);
+			EventAction.REMOVE_TOKENS, -removeTokens, reason);
 
 		event.getHook().editOriginalEmbeds(new EmbedBuilder().setColor(Constants.COLOR_SUCCESS).setDescription(lu.getText(event, path+".done")
 				.replace("{user}", target.getAsMention())

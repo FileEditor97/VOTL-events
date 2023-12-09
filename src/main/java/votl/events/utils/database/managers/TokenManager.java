@@ -16,7 +16,7 @@ public class TokenManager extends SQLiteBase {
 		super(util);
 	}
 
-	public void addTokens(long guildId, long userId, int tokenAmount, Instant currentTime) {
+	public void changeTokens(long guildId, long userId, int tokenAmount, Instant currentTime) {
 		execute(("INSERT INTO %s(guildId, userId, tokens, lastUpdated) VALUES(%d, %d, %d, %d)"+
 			"ON CONFLICT(guildId, userId) DO UPDATE SET tokens=tokens+%d, lastUpdated=%d;")
 			.formatted(table, guildId, userId, tokenAmount, currentTime.getEpochSecond(), tokenAmount, currentTime.getEpochSecond()));

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import net.dv8tion.jda.internal.utils.tuple.Pair;
-import votl.events.objects.EventActions;
+import votl.events.objects.ActionLog.EventAction;
 import votl.events.objects.ActionLog;
 import votl.events.utils.database.ConnectionUtil;
 import votl.events.utils.database.SQLiteBase;
@@ -20,7 +20,7 @@ public class TokenUpdatesManager extends SQLiteBase {
 		super(util);
 	}
 
-	public void logAction(long guildId, long targetId, Long creatorId, Instant currentTime, EventActions actionType, Integer tokenAmount, String reason) {
+	public void logAction(long guildId, long targetId, Long creatorId, Instant currentTime, EventAction actionType, Integer tokenAmount, String reason) {
 		execute("INSERT INTO %s(guildId, targetId, creatorId, datetime, type, tokenAmount, reason) VALUES(%d, %d, %d, %d, %d, %d, %s)"
 			.formatted(table, guildId, targetId, Optional.ofNullable(creatorId).orElse(0L), currentTime.getEpochSecond(), actionType.getType(), tokenAmount, quote(reason)));
 	}

@@ -31,6 +31,8 @@ import votl.events.commands.manage.EmotesCmd;
 import votl.events.commands.other.HelpCmd;
 import votl.events.commands.other.PingCmd;
 import votl.events.commands.owner.ShutdownCmd;
+import votl.events.commands.shop.ItemsCmd;
+import votl.events.commands.shop.ShopCmd;
 import votl.events.commands.tokens.AddCmd;
 import votl.events.commands.tokens.LeaderboardCmd;
 import votl.events.commands.tokens.RemoveCmd;
@@ -134,14 +136,17 @@ public class App {
 				new TransferCmd(this),
 				// Manage
 				new BankCmd(this),
-				new EmotesCmd(this)
+				new EmotesCmd(this),
+				// Shop
+				new ItemsCmd(this),
+				new ShopCmd(this)
 			)
 			.build();
 
 		// Build
 		MemberCachePolicy policy = MemberCachePolicy.OWNER;
 
-		acListener		= new AutoCompleteListener(commandClient);
+		acListener		= new AutoCompleteListener(commandClient, dbUtil);
 
 		JDABuilder jdaBuilder = JDABuilder.createLight(fileManager.getString("config", "bot-token"))
 			.setEnabledIntents(

@@ -22,6 +22,7 @@ public class BankCmd extends CommandBase {
 		this.path = "bot.manage.bank";
 		this.options = List.of(
 			new OptionData(OptionType.CHANNEL, "logs", lu.getText(path+".logs.help")).setChannelTypes(ChannelType.TEXT),
+			new OptionData(OptionType.CHANNEL, "requests", lu.getText(path+".requests.help")).setChannelTypes(ChannelType.TEXT),
 			new OptionData(OptionType.INTEGER, "transfer_cut", lu.getText(path+".transfer_cut.help")).setRequiredRange(0, 60),
 			new OptionData(OptionType.INTEGER, "max_transfer", lu.getText(path+".max_transfer.help")).setRequiredRange(50, 400),
 			new OptionData(OptionType.NUMBER, "exchange_rate", lu.getText(path+".exchange_rate.help")).setRequiredRange(0, 20),
@@ -52,6 +53,20 @@ public class BankCmd extends CommandBase {
 
 			bot.getDBUtil().bank.setLogChannel(guildId, channel.getIdLong());
 			response.append(lu.getText(event, path+".changed_log").formatted(channel.getAsMention()));
+		}
+		if (event.hasOption("requests")) {
+			GuildChannel channel = event.optGuildChannel("requests");
+
+			try {
+				bot.getCheckUtil().hasPermissions(event, event.getGuild(), event.getMember(), true, channel,
+					new Permission[]{Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND, Permission.MESSAGE_EMBED_LINKS});
+			} catch (CheckException ex) {
+				event.getHook().editOriginal(ex.getEditData()).queue();
+				return;
+			}
+
+			bot.getDBUtil().bank.setRequestsChannel(guildId, channel.getIdLong());
+			response.append(lu.getText(event, path+".changed_requests").formatted(channel.getAsMention()));
 		}
 		if (event.hasOption("transfer_cut")) {
 			Integer value = event.optInteger("transfer_cut");

@@ -28,6 +28,7 @@ public class HelpCmd extends CommandBase {
 			new OptionData(OptionType.STRING, "category", lu.getText(path+".category.help"))
 				.addChoice("Tokens", "tokens")
 				.addChoice("Owner", "owner")
+				.addChoice("Shop", "shop")
 				.addChoice("Manage", "manage")
 				.addChoice("Other", "other"),
 			new OptionData(OptionType.STRING, "command", lu.getText(path+".command.help"), false, true).setRequiredLength(3, 20),

@@ -10,7 +10,7 @@ import votl.events.App;
 import votl.events.base.command.CooldownScope;
 import votl.events.base.command.SlashCommandEvent;
 import votl.events.commands.CommandBase;
-import votl.events.objects.EventActions;
+import votl.events.objects.ActionLog.EventAction;
 import votl.events.objects.constants.CmdCategory;
 import votl.events.objects.constants.Constants;
 
@@ -66,12 +66,12 @@ public class TransferCmd extends CommandBase {
 		bot.getDBUtil().bank.changeAmount(guildId, bankCut);
 		// Transfer left amount
 		Instant currentTime = Instant.now();
-		bot.getDBUtil().tokens.addTokens(guildId, authorId, -transferAmount, currentTime);
+		bot.getDBUtil().tokens.changeTokens(guildId, authorId, -transferAmount, currentTime);
 		transferAmount = transferAmount-bankCut;
-		bot.getDBUtil().tokens.addTokens(guildId, target.getIdLong(), transferAmount, currentTime);
+		bot.getDBUtil().tokens.changeTokens(guildId, target.getIdLong(), transferAmount, currentTime);
 		// Log for both users - sender and receiver
-		bot.getDBUtil().tokenUpdates.logAction(guildId, authorId, null, currentTime, EventActions.TRANSFER, -transferAmount-bankCut, "--> @"+target.getUser().getName());
-		bot.getDBUtil().tokenUpdates.logAction(guildId, target.getIdLong(), null, currentTime, EventActions.TRANSFER, transferAmount, "<-- @"+event.getUser().getName());
+		bot.getDBUtil().tokenUpdates.logAction(guildId, authorId, null, currentTime, EventAction.TRANSFER, -transferAmount-bankCut, "--> @"+target.getUser().getName());
+		bot.getDBUtil().tokenUpdates.logAction(guildId, target.getIdLong(), null, currentTime, EventAction.TRANSFER, transferAmount, "<-- @"+event.getUser().getName());
 		
 		editHookEmbed(event, bot.getEmbedUtil().getEmbed(event).setColor(Constants.COLOR_SUCCESS)
 			.setDescription(lu.getText(event, path+".done").replace("{amount}", "%d||(+%d -> Bank)||".formatted(transferAmount, bankCut)).replace("{user}", target.getAsMention()))

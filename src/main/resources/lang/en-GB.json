@@ -38,6 +38,18 @@
 			"usage": "no usage description"
 		}
 	},
+	"items": {
+		"unlimited": "Unlimited",
+		"none": "Not available",
+		"available": "Available",
+		"week": "week",
+		"weeks": "weeks",
+		"exchange": "Exchange tokens",
+		"role": "Role",
+		"custom": "Custom role",
+		"voice": "Voice channel",
+		"emote": "Reaction emote"
+	},
 	"bot": {
 		"owner": {
 			"shutdown": {
@@ -104,6 +116,7 @@
 				"categories": {
 					"owner": "Owner",
 					"tokens": "Tokens",
+					"shop": "Shop",
 					"manage": "Manage",
 					"other": "Other",
 					"title": "Categories"
@@ -206,6 +219,105 @@
 				"done": "Transfered {amount} {EMOTE_RISE_TOKEN} to {user}."
 			}
 		},
+		"shop": {
+			"shop": {
+				"help": "Exchange tokens",
+				"usage": "shop",
+				"buy": {
+					"help": "Exchange tokens for items",
+					"usage": "buy <item>",
+					"item": {
+						"name": "item",
+						"help": "Select item which to buy"
+					},
+					"not_found": "Item not found in the shop.",
+					"not_enough": "You don't have the required amount to buy this item.",
+					"unavailable": "This item is unavailable for purchase.",
+					"done": "Bought item `%s` for %d {EMOTE_RISE_TOKEN}:\n> %s\n\nYour balance: %d"
+				},
+				"view": {
+					"help": "View available items",
+					"usage": "view",
+					"title": "Tokens shop",
+					"empty": "No items"
+				}
+			},
+			"items": {
+				"help": "Manage shop items",
+				"usage": "items",
+				"add": {
+					"help": "Add an item to the shop",
+					"usage": "add <name> <price> [description] [amount] [type]",
+					"name": {
+						"name": "name",
+						"help": "Enter item's name/title"
+					},
+					"description": {
+						"name": "description",
+						"help": "Enter item's description"
+					},
+					"price": {
+						"name": "price",
+						"help": "Enter item's price or 0 if to be free"
+					},
+					"amount": {
+						"name": "amount",
+						"help": "Enter item's available amount for purchase or -1 for unlimited"
+					},
+					"type": {
+						"name": "type",
+						"help": "Enter item's type, if not selected - usual item"
+					},
+					"duration": {
+						"name": "duration",
+						"help": "[EXTRA] Enter item's active duration in weeks"
+					},
+					"target_id": {
+						"name": "target_id",
+						"help": "[EXTRA] Enter item's target (channel ID, role ID)"
+					},
+					"done": "**Item created**\nName: %s\nDescription: `%s`\nType: %s\nPrice: %d tokens\nAmount: %s"
+				},
+				"setprice": {
+					"help": "Set new price for and item",
+					"usage": "setprice <item ID> <new price>",
+					"item_id": {
+						"name": "item_id",
+						"help": "Enter item's ID to be changed"
+					},
+					"price": {
+						"name": "price",
+						"help": "Enter item's price or 0 if to be free"
+					},
+					"not_found": "Item not found in the shop.",
+					"done": "Changed price for an item with ID `%d` to be %d tokens."
+				},
+				"setamount": {
+					"help": "Set new price for and item",
+					"usage": "setamount <item ID> <new amount>",
+					"item_id": {
+						"name": "item_id",
+						"help": "Enter item's ID to be changed"
+					},
+					"amount": {
+						"name": "amount",
+						"help": "Enter item's available amount for purchase or -1 for unlimited"
+					},
+					"not_found": "Item not found in the shop.",
+					"done": "Changed amount of available items with ID `%d` to be %s."
+				},
+				"remove": {
+					"help": "Remove and item from the shop",
+					"usage": "remove <item ID>",
+					"item_id": {
+						"name": "item_id",
+						"help": "Enter item's ID to be deleted"
+					},
+					"not_found": "Item not found in the shop.",
+					"done": "Item with ID `%s` deleted from shop."
+				}
+			}
+		},
 		"manage": {
 			"bank": {
 				"help": "Manage token's bank settings",
@@ -213,6 +325,10 @@
 				"logs": {
 					"name": "logs",
 					"help": "Set tokens action log's channel"
+				},
+				"requests": {
+					"name": "requests",
+					"help": "Set item requests channel"
 				},
 				"transfer_cut": {
 					"name": "transfer_cut",
@@ -235,6 +351,7 @@
 					"help": "Set maximum amount to exchange"
 				},
 				"changed_log": "Tokens actions log's channel set to %s.",
+				"changed_requests": "Item requests channel set to %s.",
 				"changed_cut": "Transfer cut set to %d.",
 				"changed_transfer_max": "Transfer limit set to %d.",
 				"changed_rate": "Exchange rate set to %.2f.",

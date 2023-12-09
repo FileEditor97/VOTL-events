@@ -30,7 +30,16 @@ public class BankManager extends SQLiteBase {
 
 	@Nullable
 	public Long getLogChannel(long guildId) {
-		return selectOne("SELECT logChannel FROM %s WHERE (guildId=%d);".formatted(table, guildId), "logChannel", Integer.class).longValue();
+		return selectOne("SELECT logChannel FROM %s WHERE (guildId=%d);".formatted(table, guildId), "logChannel", Long.class).longValue();
+	}
+
+	public void setRequestsChannel(long guildId, long requestsChannelId) {
+		execute("UPDATE %s SET requestsChannel=%d WHERE (guildId=%d);".formatted(table, requestsChannelId, guildId));
+	}
+
+	@Nullable
+	public Long getRequestsChannel(long guildId) {
+		return selectOne("SELECT requestsChannel FROM %s WHERE (guildId=%d);".formatted(table, guildId), "requestsChannel", Long.class).longValue();
 	}
 
 	public void changeAmount(long guildId, int amount) {

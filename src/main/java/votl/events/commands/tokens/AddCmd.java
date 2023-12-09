@@ -12,7 +12,7 @@ import votl.events.App;
 import votl.events.base.command.CooldownScope;
 import votl.events.base.command.SlashCommandEvent;
 import votl.events.commands.CommandBase;
-import votl.events.objects.EventActions;
+import votl.events.objects.ActionLog.EventAction;
 import votl.events.objects.constants.CmdCategory;
 import votl.events.objects.constants.Constants;
 
@@ -48,9 +48,9 @@ public class AddCmd extends CommandBase {
 		long targetId = target.getIdLong();
 
 		Instant updateTime = Instant.now();
-		bot.getDBUtil().tokens.addTokens(guildId, targetId, addTokens, updateTime);
+		bot.getDBUtil().tokens.changeTokens(guildId, targetId, addTokens, updateTime);
 		bot.getDBUtil().tokenUpdates.logAction(guildId, targetId, event.getUser().getIdLong(), updateTime,
-			EventActions.ADD_TOKENS, addTokens, reason);
+			EventAction.ADD_TOKENS, addTokens, reason);
 
 		event.replyEmbeds(new EmbedBuilder().setColor(Constants.COLOR_SUCCESS).setDescription(lu.getText(event, path+".done")
 				.replace("{user}", target.getAsMention())
