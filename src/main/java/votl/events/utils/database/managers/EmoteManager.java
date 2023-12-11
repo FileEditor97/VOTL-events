@@ -4,8 +4,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import votl.events.objects.Keyword;
 import votl.events.utils.database.ConnectionUtil;
 import votl.events.utils.database.SQLiteBase;
 
@@ -17,14 +17,14 @@ public class EmoteManager extends SQLiteBase {
 		super(cu);
 	}
 
-	public void addEmote(long guildId, String trigger, String emote, Long userId, Instant until) {
-		execute("INSERT INTO %s(guildId, trigger, emote, userId, until) VALUES(%d, %s, %s, %d, %d)"
-			.formatted(table, guildId, quote(trigger), quote(emote), Optional.ofNullable(userId).orElse(0L), until.getEpochSecond()));
+	public void addEmote(long guildId, String trigger, String emote, Long userId, Instant until, Boolean exact) {
+		execute("INSERT INTO %s(guildId, trigger, emote, userId, until, exact) VALUES(%d, %s, %s, %d, %d, %d)"
+			.formatted(table, guildId, quote(trigger), quote(emote), Optional.ofNullable(userId).orElse(0L), until.getEpochSecond(), exact?1:0));
 	}
 
-	public void addEmote(long guildId, String trigger, String emote) {
-		execute("INSERT INTO %s(guildId, trigger, emote, userId) VALUES(%d, %s, %s, %d)"
-			.formatted(table, guildId, quote(trigger), quote(emote), 0L));
+	public void addEmote(long guildId, String trigger, String emote, Boolean exact) {
+		execute("INSERT INTO %s(guildId, trigger, emote, userId, exact) VALUES(%d, %s, %s, %d, %d)"
+			.formatted(table, guildId, quote(trigger), quote(emote), 0L, exact?1:0));
 	}
 
 	public void deleteEmote(String trigger) {
@@ -35,11 +35,11 @@ public class EmoteManager extends SQLiteBase {
 		execute("DELETE FROM %s WHERE (id=%d)".formatted(table, keywordId));
 	}
 
-	public Map<String, String> getEmotes(long guildId) {
-		final String sql = "SELECT trigger, emote FROM %s WHERE (guildId=%d);".formatted(table, guildId);
-		List<Map<String, Object>> data = select(sql, List.of("trigger", "emote"));
-		if (data == null || data.isEmpty()) return Map.of();
-		return data.stream().collect(Collectors.toMap(m -> (String) m.get("trigger"), m -> (String) m.get("emote")));
+	public List<Keyword> getEmotes(long guildId) {
+		final String sql = "SELECT trigger, emote, exact FROM %s WHERE (guildId=%d);".formatted(table, guildId);
+		List<Map<String, Object>> data = select(sql, List.of("trigger", "emote", "exact"));
+		if (data == null || data.isEmpty()) return List.of();
+		return data.stream().map(map -> new Keyword((String) map.get("trigger"), ((int) map.getOrDefault("exact", 0))!=0, (String) map.get("emote"))).toList();
 	}
 
 	public Map<String, Object> getInfo(int keywordId) {

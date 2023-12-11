@@ -233,8 +233,8 @@ public class App {
 		messageListener.setupKeywords();
 	}
 
-	public void addEmojiKeyword(final Long guildId, final String trigger, final EmojiUnion emoji) {
-		messageListener.addKeyword(guildId, trigger, emoji);
+	public void addEmojiKeyword(final Long guildId, final String trigger, final EmojiUnion emoji, final Boolean exact) {
+		messageListener.addKeyword(guildId, trigger, emoji, exact);
 	}
 
 	public Boolean removeEmojiKeyword(final Long guildId, final String trigger) {

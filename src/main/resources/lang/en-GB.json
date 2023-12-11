@@ -378,6 +378,10 @@
 						"name": "expire_days",
 						"help": "Enter amount of days after which this keyword will expire"
 					},
+					"exact": {
+						"name": "exact",
+						"help": "Should this keyword be triggered by exact message content?"
+					},
 					"done": "Added keyword `%s` with reaction %s."
 				},
 				"remove": {

@@ -3,7 +3,6 @@ package votl.events.commands.manage;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Map;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -13,6 +12,8 @@ import votl.events.App;
 import votl.events.base.command.SlashCommand;
 import votl.events.base.command.SlashCommandEvent;
 import votl.events.commands.CommandBase;
+import votl.events.objects.Emotes;
+import votl.events.objects.Keyword;
 import votl.events.objects.constants.CmdCategory;
 import votl.events.objects.constants.Constants;
 
@@ -41,7 +42,8 @@ public class EmotesCmd extends CommandBase {
 					.setMaxLength(40),
 				new OptionData(OptionType.STRING, "emoji", lu.getText(path+".emoji.help"), true),
 				new OptionData(OptionType.INTEGER, "expire_days", lu.getText(path+".expire_days.help"))
-					.setRequiredRange(1, 90)
+					.setRequiredRange(1, 90),
+				new OptionData(OptionType.BOOLEAN, "exact", lu.getText(path+".exact.help"))
 			);
 		}
 
@@ -50,13 +52,14 @@ public class EmotesCmd extends CommandBase {
 			long guildId = event.getGuild().getIdLong();
 			String trigger = event.optString("trigger").strip().toLowerCase();
 			String emoji = event.optString("emoji");
+			Boolean exact = event.optBoolean("exact", false);
 			if (event.hasOption("expire_days")) {
 				Instant until = Instant.now().plus(event.optInteger("expire_days"), ChronoUnit.DAYS);
-				bot.getDBUtil().emotes.addEmote(guildId, trigger, emoji, null, until);
+				bot.getDBUtil().emotes.addEmote(guildId, trigger, emoji, null, until, exact);
 			} else {
-				bot.getDBUtil().emotes.addEmote(guildId, trigger, emoji);
+				bot.getDBUtil().emotes.addEmote(guildId, trigger, emoji, exact);
 			}
-			bot.addEmojiKeyword(guildId, trigger, Emoji.fromFormatted(emoji));
+			bot.addEmojiKeyword(guildId, trigger, Emoji.fromFormatted(emoji), exact);
 
 			createReplyEmbed(event, bot.getEmbedUtil().getEmbed(event)
 				.setColor(Constants.COLOR_SUCCESS)
@@ -114,12 +117,12 @@ public class EmotesCmd extends CommandBase {
 			EmbedBuilder builder = bot.getEmbedUtil().getEmbed(event)
 				.setTitle(lu.getText(event, path+".title"));
 			
-			Map<String, String> keywords = bot.getDBUtil().emotes.getEmotes(guildId);
+			List<Keyword> keywords = bot.getDBUtil().emotes.getEmotes(guildId);
 			if (keywords.isEmpty()) {
 				builder.setDescription(lu.getText(event, path+".empty"));
 			} else {
-				keywords.forEach((k, v) -> {
-					builder.appendDescription("%s | `%s`\n".formatted(v, k));
+				keywords.forEach(keyword -> {
+					builder.appendDescription("%s | %s `%s`\n".formatted(keyword.getEmoji(), keyword.isExact() ? Emotes.CHECK_C.getEmote() : Emotes.CROSS_C.getEmote(), keyword.getTrigger()));
 				});
 			}
 			createReplyEmbed(event, builder.build());
