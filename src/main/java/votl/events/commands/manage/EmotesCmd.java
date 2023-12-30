@@ -39,7 +39,7 @@ public class EmotesCmd extends CommandBase {
 			this.path = "bot.manage.emotes.add";
 			this.options = List.of(
 				new OptionData(OptionType.STRING, "trigger", lu.getText(path+".trigger.help"), true)
-					.setMaxLength(40),
+					.setMaxLength(60),
 				new OptionData(OptionType.STRING, "emoji", lu.getText(path+".emoji.help"), true),
 				new OptionData(OptionType.INTEGER, "expire_days", lu.getText(path+".expire_days.help"))
 					.setRequiredRange(1, 90),
@@ -76,7 +76,7 @@ public class EmotesCmd extends CommandBase {
 			this.path = "bot.manage.emotes.remove";
 			this.options = List.of(
 				new OptionData(OptionType.STRING, "trigger", lu.getText(path+".trigger.help"), true)
-					.setMaxLength(40)
+					.setMaxLength(60)
 			);
 		}
 

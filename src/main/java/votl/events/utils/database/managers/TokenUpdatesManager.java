@@ -69,7 +69,7 @@ public class TokenUpdatesManager extends SQLiteBase {
 
 	// Leaderboard
 	public List<Pair<Long, Integer>> getTopEarned(long guildId) {
-		final String sql = "SELECT targetId, SUM(tokenAmount) AS earned FROM %s WHERE (guildId=%d AND type IN (1)) GROUP BY targetId ORDER BY earned DESC LIMIT 10;".formatted(table, guildId);
+		final String sql = "SELECT targetId, SUM(tokenAmount) AS earned FROM %s WHERE (guildId=%d AND type IN (0)) GROUP BY targetId ORDER BY earned DESC LIMIT 10;".formatted(table, guildId);
 		List<Map<String, Object>> data = select(sql, List.of("targetId", "earned"));
 		if (data == null || data.isEmpty()) return List.of();
 		return data.stream().map(map -> Pair.of(((Number) map.get("targetId")).longValue(), (Integer) map.get("earned"))).toList();
