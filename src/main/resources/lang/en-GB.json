@@ -119,6 +119,7 @@
 					"tokens": "Tokens",
 					"shop": "Shop",
 					"manage": "Manage",
+					"events": "Events",
 					"other": "Other",
 					"title": "Categories"
 				},
@@ -417,6 +418,48 @@
 					"empty": "No data",
 					"title": "Reaction keywords"
 				}
+			},
+			"confessions": {
+				"help": "Managa confession options",
+				"usage": "confessions",
+				"add": {
+					"help": "Add option",
+					"usage": "add <Name> <#Channel>",
+					"name": {
+						"name": "name",
+						"help": "Option's name/description"
+					},
+					"channel": {
+						"name": "channel",
+						"help": "Channel in which confessions will be sended"
+					},
+					"done": "Option `%s` created with ID %d."
+				},
+				"remove": {
+					"help": "Remove option",
+					"usage": "remove <option ID>",
+					"id": {
+						"name": "id",
+						"help": "Option's ID"
+					},
+					"not_found": "Option not found",
+					"done": "Removed option with ID %d"
+				}
+			}
+		},
+		"events": {
+			"confess": {
+				"help": "Write a confession",
+				"usage": "confess",
+				"only_pm": "This command can only be used in bot's private messages.",
+				"no_options": "There are no available options.",
+				"text": "Select option",
+				"embed": "Select what do you want to send.",
+				"not_member": "You're not a member of this option's server.",
+				"enter": "Send your text bellow and I it will be anonymously posted in confession channel.\n__Maximum 4096 characters!__\n\n*There is a limit of 5 minutes, to send your text.*",
+				"timed_out": "**Waiting time exceded.**\nIf you wish to try again, enter command again.",
+				"title": "Press button below to send this confession",
+				"confirm": "< Send message? >"
 			}
 		}
 	}

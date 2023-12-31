@@ -17,7 +17,7 @@ public class BankManager extends SQLiteBase {
 	}
 
 	public void createBank(long guildId) {
-		execute("INSERT INTO %s(guildId) VALUES(%d) ON CONFLICT(guildId) DO NOTHING;");
+		execute("INSERT INTO %s(guildId) VALUES(%d) ON CONFLICT(guildId) DO NOTHING;".formatted(table, guildId));
 	}
 
 	public void deleteBank(long guildId) {
@@ -92,7 +92,8 @@ public class BankManager extends SQLiteBase {
 	}
 
 	public Pair<Integer, Integer> getExchangeAmountRange(long guildId) {
-		Map<String, Object> data = selectOne("SELECT minExchange, maxExchange FROM %s WHERE (guildId=%d);", List.of("minExchange", "maxExchange"));
+		Map<String, Object> data = selectOne("SELECT minExchange, maxExchange FROM %s WHERE (guildId=%d);".formatted(table, guildId),
+			List.of("minExchange", "maxExchange"));
 		return Pair.of((Integer) data.get("minExchange"), (Integer) data.get("maxExchange"));
 	}
 	

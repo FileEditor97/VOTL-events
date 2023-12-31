@@ -26,21 +26,23 @@ public class MessageListener extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
-		if (event.getAuthor().isBot() || event.isWebhookMessage()) return;
-		if (keywords.isEmpty()) return;
+		if (event.isFromGuild()) {
+			if (event.getAuthor().isBot() || event.isWebhookMessage()) return;
+			if (keywords.isEmpty()) return;
 
-		List<Keyword> list = keywords.get(event.getGuild().getIdLong());
-		if (list == null || list.isEmpty()) return;
+			List<Keyword> list = keywords.get(event.getGuild().getIdLong());
+			if (list == null || list.isEmpty()) return;
 
-		String content = event.getMessage().getContentStripped().toLowerCase();
-		list.forEach(keyword -> {
-			if ( (keyword.isExact() && content.equals(keyword.getTrigger())) || (!keyword.isExact() && content.contains(keyword.getTrigger())) ) {
-				event.getMessage().addReaction(keyword.getEmoji()).queue(null, failure -> {
-					new ErrorHandler().ignore(ErrorResponse.MISSING_PERMISSIONS, ErrorResponse.UNKNOWN_MESSAGE);
-				});
-				return;
-			}
-		});
+			String content = event.getMessage().getContentStripped().toLowerCase();
+			list.forEach(keyword -> {
+				if ( (keyword.isExact() && content.equals(keyword.getTrigger())) || (!keyword.isExact() && content.contains(keyword.getTrigger())) ) {
+					event.getMessage().addReaction(keyword.getEmoji()).queue(null, failure -> {
+						new ErrorHandler().ignore(ErrorResponse.MISSING_PERMISSIONS, ErrorResponse.UNKNOWN_MESSAGE);
+					});
+					return;
+				}
+			});
+		}
 	}
 
 	public void setupKeywords() {

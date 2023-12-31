@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import votl.events.App;
 import votl.events.utils.database.managers.BankManager;
+import votl.events.utils.database.managers.ConfessionsManager;
 import votl.events.utils.database.managers.EmoteManager;
 import votl.events.utils.database.managers.ItemsManager;
 import votl.events.utils.database.managers.TokenManager;
@@ -37,6 +38,7 @@ public class DBUtil {
 	public final BankManager bank;
 	public final EmoteManager emotes;
 	public final ItemsManager items;
+	public final ConfessionsManager confess;
 
 	public DBUtil(FileManager fileManager) {
 		this.fileManager = fileManager;
@@ -47,6 +49,7 @@ public class DBUtil {
 		bank = new BankManager(connectionUtil);
 		emotes = new EmoteManager(connectionUtil);
 		items = new ItemsManager(connectionUtil);
+		confess = new ConfessionsManager(connectionUtil);
 
 		updateDB();
 	}

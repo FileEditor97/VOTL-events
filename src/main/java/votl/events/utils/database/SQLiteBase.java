@@ -100,6 +100,20 @@ public class SQLiteBase {
 			util.logger.warn("DB SQLite: Error at statement execution\nrequest: {}", sql, ex);
 		}
 	}
+
+	protected int lastId() {
+		final String sql = "SELECT last_insert_rowid();";
+		util.logger.debug(sql);
+		int rowId = 0;
+		try (PreparedStatement st = util.prepareStatement(sql)) {
+			ResultSet rs = st.executeQuery();
+
+			rowId = rs.getInt(1);
+		} catch (SQLException ex) {
+			util.logger.warn("DB SQLite: Error at statement execution\nrequest: {}", sql, ex);
+		}
+		return rowId;
+	}
 	
 
 	// UTILS

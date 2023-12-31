@@ -26,7 +26,9 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import votl.events.base.command.CommandClient;
 import votl.events.base.command.CommandClientBuilder;
 import votl.events.base.waiter.EventWaiter;
+import votl.events.commands.events.ConfessCmd;
 import votl.events.commands.manage.BankCmd;
+import votl.events.commands.manage.ConfessionsCmd;
 import votl.events.commands.manage.EmotesCmd;
 import votl.events.commands.other.HelpCmd;
 import votl.events.commands.other.PingCmd;
@@ -138,10 +140,13 @@ public class App {
 				// Manage
 				new BankCmd(this),
 				new EmotesCmd(this),
+				new ConfessionsCmd(this),
 				// Shop
 				new ItemsCmd(this),
 				new ShopCmd(this),
-				new ExchangeCmd(this, WAITER)
+				new ExchangeCmd(this, WAITER),
+				// Events
+				new ConfessCmd(this, WAITER)
 			)
 			.build();
 
@@ -154,7 +159,8 @@ public class App {
 			.setEnabledIntents(
 				GatewayIntent.GUILD_MEMBERS,			// required for updating member profiles and ChunkingFilter
 				GatewayIntent.GUILD_MESSAGES,			// checks for verified
-				GatewayIntent.MESSAGE_CONTENT			// search for keyword
+				GatewayIntent.MESSAGE_CONTENT,			// search for keyword
+				GatewayIntent.DIRECT_MESSAGES			// events in direct messages
 			)
 			.setMemberCachePolicy(policy)
 			.setChunkingFilter(ChunkingFilter.ALL)		// chunk all guilds

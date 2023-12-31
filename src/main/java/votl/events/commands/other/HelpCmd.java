@@ -30,6 +30,7 @@ public class HelpCmd extends CommandBase {
 				.addChoice("Owner", "owner")
 				.addChoice("Shop", "shop")
 				.addChoice("Manage", "manage")
+				.addChoice("Events", "events")
 				.addChoice("Other", "other"),
 			new OptionData(OptionType.STRING, "command", lu.getText(path+".command.help"), false, true).setRequiredLength(3, 20),
 			new OptionData(OptionType.BOOLEAN, "show", lu.getText(path+".show.help"))
