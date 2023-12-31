@@ -27,7 +27,8 @@
 			"guild": "in this server",
 			"shard": "on this shard",
 			"global": "globally"
-		}
+		},
+		"timed_out": "Timed out"
 	},
 	"misc": {
 		"and": "and",
@@ -316,6 +317,21 @@
 					"not_found": "Item not found in the shop.",
 					"done": "Item with ID `%s` deleted from shop."
 				}
+			},
+			"exchange": {
+				"help": "Exchange tokens for coins",
+				"usage": "exchange <amount>",
+				"amount": {
+					"name": "amount",
+					"help": "amount"
+				},
+				"not_enough": "You don't have the required amount for exchange.",
+				"min": "Minimum amount for exchange must be used.",
+				"max": "Maximum amount for transfer reached. Either already reached month limit or entered amount is to large.",
+				"disabled": "Exchange is not possible at this moment.",
+				"button": "Confirm",
+				"confirm": "Confirm exchange of {tokens} {EMOTE_RISE_TOKEN} for {coins} coins.",
+				"done": "Exchanged {tokens} {EMOTE_RISE_TOKEN} for {coins} coins."
 			}
 		},
 		"manage": {

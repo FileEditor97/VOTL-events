@@ -31,6 +31,7 @@ import votl.events.commands.manage.EmotesCmd;
 import votl.events.commands.other.HelpCmd;
 import votl.events.commands.other.PingCmd;
 import votl.events.commands.owner.ShutdownCmd;
+import votl.events.commands.shop.ExchangeCmd;
 import votl.events.commands.shop.ItemsCmd;
 import votl.events.commands.shop.ShopCmd;
 import votl.events.commands.tokens.AddCmd;
@@ -139,7 +140,8 @@ public class App {
 				new EmotesCmd(this),
 				// Shop
 				new ItemsCmd(this),
-				new ShopCmd(this)
+				new ShopCmd(this),
+				new ExchangeCmd(this, WAITER)
 			)
 			.build();
 
