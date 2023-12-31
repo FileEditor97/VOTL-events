@@ -73,7 +73,7 @@ public class BankManager extends SQLiteBase {
 
 	// Exchange
 	public void setExchangeRate(long guildId, Float rate) {
-		execute("UPDATE %s SET exchangeRate=%.1f WHERE (guildId=%d);".formatted(table, rate, guildId));
+		execute("UPDATE %s SET exchangeRate=%.3s WHERE (guildId=%d);".formatted(table, rate, guildId));
 	}
 
 	@Nullable

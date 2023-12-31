@@ -78,6 +78,7 @@ public class ExchangeCmd extends CommandBase {
 				ButtonInteractionEvent.class,
 				e -> e.getMessageId().equals(msg.getId()) && e.getMember().equals(event.getMember()),
 				actionEvent -> {
+					actionEvent.deferEdit().queue();
 					// Remove from user
 					bot.getDBUtil().tokens.changeTokens(guildId, authorId, -exchangeAmount, Instant.now());
 					// To bank

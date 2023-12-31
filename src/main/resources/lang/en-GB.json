@@ -371,7 +371,7 @@
 				"changed_requests": "Item requests channel set to %s.",
 				"changed_cut": "Transfer cut set to %d.",
 				"changed_transfer_max": "Transfer limit set to %d.",
-				"changed_rate": "Exchange rate set to %.2f.",
+				"changed_rate": "Exchange rate set to %.3s.",
 				"changed_exchange_min": "Exchange minimum set to %d.",
 				"changed_exchange_max": "Exchange maximum set to %d.",
 				"no_options": "No options to be updated.",
