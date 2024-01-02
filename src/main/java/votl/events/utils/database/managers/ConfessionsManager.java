@@ -17,9 +17,9 @@ public class ConfessionsManager extends SQLiteBase {
 		super(cu);
 	}
 
-	public int createOption(long guildId, long channelId, String name) {
+	public void createOption(long guildId, long channelId, String name) {
 		execute("INSERT INTO %s(guildId, channelId, name) VALUES(%d, %d, %s);".formatted(table_options, guildId, channelId, quote(name)));
-		return lastId();
+		//return lastId();
 	}
 
 	public void deleteOption(int id) {

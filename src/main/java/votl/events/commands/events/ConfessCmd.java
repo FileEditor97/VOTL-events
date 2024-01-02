@@ -129,6 +129,7 @@ public class ConfessCmd extends CommandBase {
 													.setTitle(bot.getDBUtil().confess.getName(optionId))
 													.setDescription(text.length() > 4096 ? text.subSequence(0, 4095) : text)
 													.setTimestamp(time)
+													.setFooter("/confess")
 													.build()
 												).queue();
 											} catch (InsufficientPermissionException ex) {

@@ -35,6 +35,8 @@ public enum Emotes {
 	CHECK_C		("color_check", 1043105156700577842L, false),
 	CROSS_C		("color_cross", 1043105216133865522L, false),
 	WARNING_C	("color_warning", 1043105732347834428L, false),
+	UP			("up",          1191871577923518474L, false),
+	DOWN		("down",        1191871590133145761L, false),
 	// ROTR Discord
 	RISE_TOKEN	("risetokens", 1180973841418297445L, false);
 

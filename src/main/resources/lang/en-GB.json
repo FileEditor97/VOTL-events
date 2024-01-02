@@ -199,8 +199,8 @@
 				},
 				"title": "Leaderboard",
 				"amount": "By current amount",
-				"earned": "By amount earned",
-				"spend": "By amount spend",
+				"earned": "{EMOTE_UP} By amount earned",
+				"spend": "{EMOTE_DOWN} By amount spend",
 				"empty": "No data"
 			},
 			"transfer": {
@@ -433,7 +433,13 @@
 						"name": "channel",
 						"help": "Channel in which confessions will be sended"
 					},
-					"done": "Option `%s` created with ID %d."
+					"done": "Option `%s` created."
+				},
+				"view": {
+					"help": "View existing confessions",
+					"usage": "view",
+					"empty": "There are no options",
+					"title": "Confession options"
 				},
 				"remove": {
 					"help": "Remove option",
@@ -444,6 +450,21 @@
 					},
 					"not_found": "Option not found",
 					"done": "Removed option with ID %d"
+				},
+				"reset": {
+					"help": "Reset user (1/all) option use",
+					"usage": "reset <option ID> [@User]",
+					"id": {
+						"name": "id",
+						"help": "Option's ID"
+					},
+					"user": {
+						"name": "user",
+						"help": "Select user for which to reset use"
+					},
+					"not_found": "Option not found",
+					"done_all": "Cleared option's with ID `%d` use for all users.",
+					"done_user": "Cleared option's with ID `%d` use for user %s."
 				}
 			}
 		},
