@@ -9,6 +9,7 @@ import jakarta.annotation.Nonnull;
 import net.dv8tion.jda.api.entities.emoji.EmojiUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 import votl.events.App;
@@ -36,9 +37,13 @@ public class MessageListener extends ListenerAdapter {
 			String content = event.getMessage().getContentStripped().toLowerCase();
 			list.forEach(keyword -> {
 				if ( (keyword.isExact() && content.equals(keyword.getTrigger())) || (!keyword.isExact() && content.contains(keyword.getTrigger())) ) {
-					event.getMessage().addReaction(keyword.getEmoji()).queue(null, failure -> {
-						new ErrorHandler().ignore(ErrorResponse.MISSING_PERMISSIONS, ErrorResponse.UNKNOWN_MESSAGE);
-					});
+					try {
+						event.getMessage().addReaction(keyword.getEmoji()).queue(null, failure -> {
+							new ErrorHandler().ignore(ErrorResponse.MISSING_PERMISSIONS, ErrorResponse.UNKNOWN_MESSAGE);
+						});
+					} catch (InsufficientPermissionException ex) {
+						// Catch and forget
+					}
 					return;
 				}
 			});
