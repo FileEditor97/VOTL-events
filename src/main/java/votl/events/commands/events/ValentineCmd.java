@@ -27,7 +27,7 @@ public class ValentineCmd extends CommandBase {
 
 	private EventWaiter waiter;
 	private final DiscordLocale globalLocale = DiscordLocale.RUSSIAN;
-	private final int MAX_VALENTINES = 6;
+	private final int MAX_VALENTINES = 4;
 	
 	public ValentineCmd(App bot, EventWaiter waiter) {
 		super(bot);
@@ -68,7 +68,7 @@ public class ValentineCmd extends CommandBase {
 						// Prepare embed
 						String text = replyEvent.getMessage().getContentRaw();
 						EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Constants.COLOR_WARNING)
-							.setTitle(lu.getLocalized(globalLocale, path+".title").formatted(target.getAsMention()))
+							.setTitle(lu.getLocalized(globalLocale, path+".title").formatted(target.getEffectiveName()))
 							.setDescription(text.length() > 2000 ? text.subSequence(0, 2000) : text);
 						replyEvent.getMessage().getAttachments().stream().findFirst().ifPresent(att -> embedBuilder.setImage(att.getUrl()));
 

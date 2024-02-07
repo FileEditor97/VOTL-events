@@ -14,7 +14,7 @@ public class ValentinesManager extends SQLiteBase {
 	}
 
 	public void addValentine(long userId, Instant time) {
-		execute("INSERT INTO %s(userId, amount, lastSent) VALUES (%d, 1, %d) ON CONFLICT(userId) DO UPDATE amount=amount+1, lastSent=%<d;".formatted(table, userId, time.getEpochSecond()));
+		execute("INSERT INTO %s(userId, amount, lastSent) VALUES (%d, 1, %d) ON CONFLICT(userId) DO UPDATE SET amount=amount+1, lastSent=%<d;".formatted(table, userId, time.getEpochSecond()));
 	}
 
 	public int countValentines(long userId) {
