@@ -94,7 +94,7 @@ public class ConfessCmd extends CommandBase {
 						// Wait for reply
 						waiter.waitForEvent(
 							MessageReceivedEvent.class,
-							e -> e.getChannel().getId().equals(selectEvent.getChannelId()),
+							e -> e.getChannel().getId().equals(selectEvent.getChannelId()) && !e.getAuthor().isBot(),
 							replyEvent -> {
 								// Prepare embed
 								String text = replyEvent.getMessage().getContentRaw();

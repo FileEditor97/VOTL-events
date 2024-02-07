@@ -29,7 +29,7 @@ public class InteractionListener extends ListenerAdapter {
 				// This uses development server's channel for reports
 				MessageChannel channel = bot.JDA.getTextChannelById(1204730889066782730L);
 				if (channel != null) {
-					channel.sendMessage(Constants.FAILURE+"Valentine reported\nSender: %s\nReceiver: %s".formatted(userId, event.getUser().getId()))
+					channel.sendMessage(Constants.FAILURE+"Valentine reported\nSender: <@%s>\nReceiver: <@%s>".formatted(userId, event.getUser().getId()))
 						.addEmbeds(new EmbedBuilder(embed).setTitle(null).setFooter(null).setColor(Constants.COLOR_FAILURE).build())
 						.queue();
 				}

@@ -38,7 +38,7 @@ public class ValentineCmd extends CommandBase {
 		);
 		this.category = CmdCategory.EVENTS;
 		this.cooldownScope = CooldownScope.USER;
-		this.cooldown = 30;
+		this.cooldown = 60;
 		this.waiter = waiter;
 	}
 
@@ -63,7 +63,7 @@ public class ValentineCmd extends CommandBase {
 				event.getHook().editOriginalEmbeds(new EmbedBuilder().setColor(Constants.COLOR_SUCCESS).setDescription(lu.getLocalized(globalLocale, path+".pm_done")).build()).queue();
 				waiter.waitForEvent(
 					MessageReceivedEvent.class,
-					e -> e.getChannel().getId().equals(pc.getId()),
+					e -> e.getChannel().getId().equals(pc.getId()) && !e.getAuthor().isBot(),
 					replyEvent -> {
 						// Prepare embed
 						String text = replyEvent.getMessage().getContentRaw();
@@ -97,8 +97,8 @@ public class ValentineCmd extends CommandBase {
 											// send log in server
 											MessageChannel channel = bot.JDA.getTextChannelById(1204730889066782730L);
 											if (channel != null) {
-												channel.sendMessage("Valentine sent\nSender: %s\nReceiver: %s\nGuild: %s"
-													.formatted(target.getId(), event.getUser().getId(), event.getGuild().getName())
+												channel.sendMessage("Valentine sent\nSender: <@%s>\nReceiver: <@%s>\nGuild: `%s`"
+													.formatted(event.getUser().getId(), target.getId(), event.getGuild().getName())
 												).queue();
 											}
 										},
