@@ -4,3 +4,4 @@ CREATE TABLE "items" ("id" INTEGER, "guildId" INTEGER NOT NULL, "name" TEXT NOT 
 DROP TABLE "items"; CREATE TABLE "items" ("id" INTEGER, "guildId" INTEGER NOT NULL, "name" TEXT NOT NULL, "description" TEXT, "price" INTEGER NOT NULL, "amount" INTEGER, "type" INTEGER NOT NULL DEFAULT 0, "data" TEXT, PRIMARY KEY("id" AUTOINCREMENT)); ALTER TABLE "bank" ADD "requestsChannel" INTEGER;
 ALTER TABLE "emoteKeywords" ADD "exact" INTEGER NOT NULL DEFAULT 0;
 CREATE TABLE "confessed" ("userId" INTEGER NOT NULL, "optionId" INTEGER NOT NULL, "timeCreated" INTEGER, UNIQUE("userId","optionId")); CREATE TABLE "confessionOptions" ("id" INTEGER, "guildId" INTEGER NOT NULL, "channelId" INTEGER NOT NULL, "name" TEXT, PRIMARY KEY("id" AUTOINCREMENT));
+CREATE TABLE "valentines" ("userId" INTEGER NOT NULL UNIQUE, "amount" INTEGER DEFAULT 0, "lastSent" INTEGER)

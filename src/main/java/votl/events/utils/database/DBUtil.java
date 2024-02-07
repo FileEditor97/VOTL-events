@@ -23,6 +23,7 @@ import votl.events.utils.database.managers.EmoteManager;
 import votl.events.utils.database.managers.ItemsManager;
 import votl.events.utils.database.managers.TokenManager;
 import votl.events.utils.database.managers.TokenUpdatesManager;
+import votl.events.utils.database.managers.ValentinesManager;
 import votl.events.utils.file.FileManager;
 
 public class DBUtil {
@@ -39,6 +40,7 @@ public class DBUtil {
 	public final EmoteManager emotes;
 	public final ItemsManager items;
 	public final ConfessionsManager confess;
+	public final ValentinesManager valentines;
 
 	public DBUtil(FileManager fileManager) {
 		this.fileManager = fileManager;
@@ -50,6 +52,7 @@ public class DBUtil {
 		emotes = new EmoteManager(connectionUtil);
 		items = new ItemsManager(connectionUtil);
 		confess = new ConfessionsManager(connectionUtil);
+		valentines = new ValentinesManager(connectionUtil);
 
 		updateDB();
 	}

@@ -27,11 +27,13 @@ import votl.events.base.command.CommandClient;
 import votl.events.base.command.CommandClientBuilder;
 import votl.events.base.waiter.EventWaiter;
 import votl.events.commands.events.ConfessCmd;
+import votl.events.commands.events.ValentineCmd;
 import votl.events.commands.manage.BankCmd;
 import votl.events.commands.manage.ConfessionsCmd;
 import votl.events.commands.manage.EmotesCmd;
 import votl.events.commands.other.HelpCmd;
 import votl.events.commands.other.PingCmd;
+import votl.events.commands.owner.ForceAmountCmd;
 import votl.events.commands.owner.ShutdownCmd;
 import votl.events.commands.shop.ExchangeCmd;
 import votl.events.commands.shop.ItemsCmd;
@@ -44,6 +46,7 @@ import votl.events.commands.tokens.TransferCmd;
 import votl.events.listener.AutoCompleteListener;
 import votl.events.listener.CommandListener;
 import votl.events.listener.GuildListener;
+import votl.events.listener.InteractionListener;
 import votl.events.listener.MessageListener;
 import votl.events.objects.constants.Constants;
 import votl.events.objects.constants.Links;
@@ -76,6 +79,7 @@ public class App {
 	private final GuildListener guildListener;
 	private final MessageListener messageListener;
 	private final CommandListener commandListener;
+	private final InteractionListener interactionListener;
 
 	private final ScheduledExecutorService scheduledExecutor;
 	private final ScheduledCheck scheduledCheck;
@@ -110,6 +114,7 @@ public class App {
 		guildListener   = new GuildListener(this);
 		messageListener = new MessageListener(this);
 		commandListener = new CommandListener();
+		interactionListener = new InteractionListener(this);
 
 		scheduledExecutor	= new ScheduledThreadPoolExecutor(3, new CountingThreadFactory("VOTL", "Scheduler", false));
 		scheduledCheck		= new ScheduledCheck(this);
@@ -128,6 +133,7 @@ public class App {
 			.addSlashCommands(
 				// Owner
 				new ShutdownCmd(this),
+				new ForceAmountCmd(this),
 				// Other
 				new PingCmd(this),
 				new HelpCmd(this),
@@ -146,7 +152,8 @@ public class App {
 				new ShopCmd(this),
 				new ExchangeCmd(this, WAITER),
 				// Events
-				new ConfessCmd(this, WAITER)
+				new ConfessCmd(this, WAITER),
+				new ValentineCmd(this, WAITER)
 			)
 			.build();
 
@@ -168,7 +175,7 @@ public class App {
 				CacheFlag.MEMBER_OVERRIDES,		// channel permission overrides
 				CacheFlag.ROLE_TAGS				// role search
 			)
-			.addEventListeners(commandClient, WAITER, acListener, guildListener, messageListener);
+			.addEventListeners(commandClient, WAITER, acListener, guildListener, messageListener, interactionListener);
 		
 		JDA jda = null;
 

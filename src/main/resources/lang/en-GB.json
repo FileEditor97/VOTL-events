@@ -6,7 +6,7 @@
 		"title": "Error",
 		"additional": "Additional info:",
 		"missing_perms": {
-			"no_send_perm": "I have no permission to send messages in your channel. Pls fix!",
+			"no_send_perm": "I have no permission to send messages in your channel. Please fix!",
 			"self": "I lack the permission `{permission}` for this.",
 			"self_channel": "I lack the permission `{permission}` in the channel {channel} to do this.",
 			"other": "You lack the permission `{permission}` for this command.",
@@ -56,6 +56,18 @@
 			"shutdown": {
 				"help": "Safely shuts down the bot",
 				"usage": "shutdown"
+			},
+			"forceamount": {
+				"help": "Set amount of sent valentines for user",
+				"usage": "forceamount <@User> [amount]",
+				"user": {
+					"name": "user",
+					"help": "Select user"
+				},
+				"amount": {
+					"name": "amount",
+					"help": "Enter new amount (0 - removes user)"
+				}
 			}
 		},
 		"other": {
@@ -481,6 +493,27 @@
 				"timed_out": "**Waiting time exceded.**\nIf you wish to try again, enter command again.",
 				"title": "Press button below to send this confession",
 				"confirm": "< Send message? >"
+			},
+			"valentine": {
+				"help": "Send valentine 💌 to user",
+				"usage": "valentine <@User>",
+				"user": {
+					"name": "user",
+					"help": "Select the receiver"
+				},
+				"no_member": "Selected user is not member of this server or is Bot.",
+				"limited": "Maximum of 6 valentines can be send.",
+				"enter": "Send your message (AND/OR image) bellow and I it will be send to %s.\n__Maximum 2000 characters!__\n\n*There is a limit of 5 minutes, to send your message.*",
+				"pm_done": "Message send in private message, continue there.",
+				"pm_failed": "Can't send you a private message! Please check that I can direct message you.",
+				"timed_out": "**Waiting time exceded.**\nIf you wish to try again, enter command again.",
+				"title": "Press button below to send this valentine 💌 to %s",
+				"confirm": "< Send message? >",
+				"received": "You received valentine from someone!",
+				"report": "*Press button below to report this message.*",
+				"sent": "Valentine 💌 sent!",
+				"failed": "Unable to sent valentine to the user. Probably, their's DMs are closed.",
+				"reported": "Message has been deleted and reported!"
 			}
 		}
 	}
