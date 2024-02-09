@@ -507,12 +507,12 @@
 				"pm_done": "Message send in private message, continue there.",
 				"pm_failed": "Can't send you a private message! Please check that I can direct message you.",
 				"timed_out": "**Waiting time exceded.**\nIf you wish to try again, enter command again.",
-				"title": "Press button below to send this valentine 💌 to %s",
-				"confirm": "< Send message? >",
+				"confirm_title": "Press button below to send this valentine 💌 to %s",
+				"confirm_value": "**The message will be sent for approval by moderation.** This may take up to 12 hours before the recipient receives the message.",
+				"confirm_button": "< Send message? >",
 				"received": "You received valentine from someone!",
 				"report": "*Press button below to report this message.*",
-				"sent": "Valentine 💌 sent!",
-				"failed": "Unable to sent valentine to the user. Probably, their's DMs are closed.",
+				"sent": "Valentine 💌 sent for approval!",
 				"reported": "Message has been deleted and reported!"
 			}
 		}

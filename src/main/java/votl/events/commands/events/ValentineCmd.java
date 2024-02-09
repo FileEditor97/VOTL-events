@@ -27,7 +27,7 @@ public class ValentineCmd extends CommandBase {
 
 	private EventWaiter waiter;
 	private final DiscordLocale globalLocale = DiscordLocale.RUSSIAN;
-	private final int MAX_VALENTINES = 4;
+	private final int MAX_VALENTINES = 6;
 	
 	public ValentineCmd(App bot, EventWaiter waiter) {
 		super(bot);
@@ -68,48 +68,40 @@ public class ValentineCmd extends CommandBase {
 						// Prepare embed
 						String text = replyEvent.getMessage().getContentRaw();
 						EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Constants.COLOR_WARNING)
-							.setTitle(lu.getLocalized(globalLocale, path+".title").formatted(target.getEffectiveName()))
+							.setTitle(lu.getLocalized(globalLocale, path+".confirm_title").formatted(target.getEffectiveName()))
 							.setDescription(text.length() > 2000 ? text.subSequence(0, 2000) : text);
 						replyEvent.getMessage().getAttachments().stream().findFirst().ifPresent(att -> embedBuilder.setImage(att.getUrl()));
 
 						// Send confirm
-						Button confirm = Button.success("valentine", lu.getLocalized(globalLocale, path+".confirm"));
-						replyEvent.getChannel().sendMessageEmbeds(embedBuilder.build()).addActionRow(confirm).queue(msgConfirm -> {
+						Button confirm = Button.success("valentine", lu.getLocalized(globalLocale, path+".confirm_button"));
+						replyEvent.getChannel().sendMessage(lu.getLocalized(globalLocale, path+".confirm_value")).addEmbeds(embedBuilder.build()).addActionRow(confirm).queue(msgConfirm -> {
 							waiter.waitForEvent(
 								ButtonInteractionEvent.class,
 								e -> e.getMessageId().equals(msgConfirm.getId()),
 								buttonEvent -> {
-									target.getUser().openPrivateChannel().queue(targetPc -> {
-										Button report = Button.secondary("report:"+event.getUser().getId(), "Report");
-										targetPc.sendMessageEmbeds(embedBuilder
-											.setColor(0xAF2655)
-											.setTitle(lu.getLocalized(globalLocale, path+".received"))
-											.setFooter(lu.getLocalized(globalLocale, path+".report"))
+									Button allow = Button.success("allow:"+target.getId(), "Allow");
+									Button delete = Button.danger("reject", "Reject");
+
+									// Send for approval
+									MessageChannel channel = bot.JDA.getTextChannelById(1205461668516335616L);
+									if (channel != null) {
+										channel.sendMessage("Valentine sent\nSender: <@%s>\nReceiver: <@%s>\nGuild: `%s`"
+											.formatted(event.getUser().getId(), target.getId(), event.getGuild().getName())
+										).addEmbeds(embedBuilder
+											.setTitle(null)
 											.build()
-										).addActionRow(report).queue(sentMsg -> {
-											msgConfirm.editMessageEmbeds(new EmbedBuilder()
-												.setColor(Constants.COLOR_SUCCESS)
-												.setDescription(lu.getLocalized(globalLocale, path+".sent"))
-												.build()
-											).setComponents().queue();
-											// log in bd
-											bot.getDBUtil().valentines.addValentine(event.getUser().getIdLong(), Instant.now());
-											// send log in server
-											MessageChannel channel = bot.JDA.getTextChannelById(1204730889066782730L);
-											if (channel != null) {
-												channel.sendMessage("Valentine sent\nSender: <@%s>\nReceiver: <@%s>\nGuild: `%s`"
-													.formatted(event.getUser().getId(), target.getId(), event.getGuild().getName())
-												).queue();
-											}
-										},
-										failure -> {
-											msgConfirm.editMessageEmbeds(new EmbedBuilder()
-												.setColor(Constants.COLOR_FAILURE)
-												.setDescription(lu.getLocalized(globalLocale, path+".failed"))
-												.build()
-											).setComponents().queue();
-										});
-									});
+										).addActionRow(
+											allow, delete
+										).queue();
+									}
+									// log in bd
+									bot.getDBUtil().valentines.addValentine(event.getUser().getIdLong(), Instant.now());
+									// reply
+									msgConfirm.editMessageEmbeds(new EmbedBuilder()
+										.setColor(Constants.COLOR_SUCCESS)
+										.setDescription(lu.getLocalized(globalLocale, path+".sent"))
+										.build()
+									).setContent(null).setComponents().queue();
 								},
 								30,
 								TimeUnit.SECONDS,
