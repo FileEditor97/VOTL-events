@@ -49,7 +49,7 @@ public class InteractionListener extends ListenerAdapter {
 
 				event.getJDA().retrieveUserById(targetId).queue(target -> {
 					target.openPrivateChannel().queue(targetPc -> {
-						Button report = Button.secondary("report:"+event.getUser().getId(), "Report");
+						Button report = Button.secondary("report:"+event.getMessage().getEmbeds().get(0).getTitle(), "Report");
 						targetPc.sendMessageEmbeds(new EmbedBuilder(event.getMessage().getEmbeds().get(0))
 							.setColor(0xAF2655)
 							.setTitle(bot.getLocaleUtil().getLocalized(globalLocale, "bot.events.valentine.received"))

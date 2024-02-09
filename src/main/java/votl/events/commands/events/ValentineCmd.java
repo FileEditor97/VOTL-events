@@ -88,7 +88,7 @@ public class ValentineCmd extends CommandBase {
 										channel.sendMessage("Valentine sent\nSender: <@%s>\nReceiver: <@%s>\nGuild: `%s`"
 											.formatted(event.getUser().getId(), target.getId(), event.getGuild().getName())
 										).addEmbeds(embedBuilder
-											.setTitle(null)
+											.setTitle(event.getUser().getId())
 											.build()
 										).addActionRow(
 											allow, delete
