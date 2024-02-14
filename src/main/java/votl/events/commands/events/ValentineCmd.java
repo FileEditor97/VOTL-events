@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -70,7 +71,14 @@ public class ValentineCmd extends CommandBase {
 						EmbedBuilder embedBuilder = new EmbedBuilder().setColor(Constants.COLOR_WARNING)
 							.setTitle(lu.getLocalized(globalLocale, path+".confirm_title").formatted(target.getEffectiveName()))
 							.setDescription(text.length() > 2000 ? text.subSequence(0, 2000) : text);
-						replyEvent.getMessage().getAttachments().stream().findFirst().ifPresent(att -> embedBuilder.setImage(att.getUrl()));
+						Attachment att = replyEvent.getMessage().getAttachments().stream().findFirst().orElse(null);
+						if (att != null) {
+							embedBuilder.setImage(att.getUrl());
+						} else if (text.length() == 0) {
+							// Empty
+							replyEvent.getChannel().sendMessageEmbeds(bot.getEmbedUtil().getError(event, path+".empty")).queue();
+							return;
+						}
 
 						// Send confirm
 						Button confirm = Button.success("valentine", lu.getLocalized(globalLocale, path+".confirm_button"));
